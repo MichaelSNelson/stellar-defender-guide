@@ -1,0 +1,633 @@
+<title>Stellar Defender Field Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script type="importmap">
+{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}
+</script>
+<style>
+/* Layout: an operations manual. Sticky section bar on top, one section shown at a time;
+   wide things (the upgrade tree, tables) scroll inside their own frames. */
+:root {
+  --bg: #edf1f5; --surface: #ffffff; --surface-2: #f5f8fb; --ink: #0f1b2c; --muted: #536378;
+  --line: #cfd8e3; --accent: #0b7d75; --accent-ink: #ffffff; --amber: #a85f00; --danger: #b8382a;
+  --good: #2c7f3b; --locked: #8a97a8; --soon: #7a5bb0;
+  --display: "Chakra Petch", "Segoe UI", system-ui, sans-serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0a1220; --surface: #111c2e; --surface-2: #0e1828; --ink: #e3ebf5; --muted: #93a4ba;
+  --line: #24354e; --accent: #40fff0; --accent-ink: #062320; --amber: #f2a93b; --danger: #ff7a66;
+  --good: #4cc061; --locked: #5f7088; --soon: #b49af0; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #0a1220; --surface: #111c2e; --surface-2: #0e1828; --ink: #e3ebf5; --muted: #93a4ba;
+  --line: #24354e; --accent: #40fff0; --accent-ink: #062320; --amber: #f2a93b; --danger: #ff7a66;
+  --good: #4cc061; --locked: #5f7088; --soon: #b49af0; color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font: 15px/1.55 var(--body); }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface) }
+a { color: var(--accent) }
+h1, h2, h3 { font-family: var(--display); text-wrap: balance; line-height: 1.15; margin: 0 }
+h2 { font-size: 1.7rem; font-weight: 700 }
+h3 { font-size: 1.12rem; font-weight: 600 }
+p { margin: 0 }
+.wrap { max-width: 1240px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)) }
+.mono, td.num, .num { font-family: var(--mono); font-variant-numeric: tabular-nums }
+.eyebrow { font: 500 0.72rem/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted) }
+
+header.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line) }
+header.top .wrap { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; padding-block: 10px }
+.brand { display: flex; align-items: baseline; gap: 10px }
+.brand b { font: 700 1.2rem var(--display); letter-spacing: 0.02em }
+.brand span { color: var(--muted); font-size: 0.85rem }
+nav.tabs { display: flex; gap: 4px; flex-wrap: wrap; margin-left: auto }
+nav.tabs a { text-decoration: none; color: var(--muted); font: 600 0.88rem var(--display); letter-spacing: 0.04em; text-transform: uppercase; padding: 7px 12px; border-radius: 6px; border: 1px solid transparent }
+nav.tabs a:hover { color: var(--ink); border-color: var(--line) }
+nav.tabs a[aria-current="page"] { color: var(--accent-ink); background: var(--accent) }
+a:focus-visible, button:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+
+main section { display: none; padding-block: 28px 64px }
+main section.on { display: block }
+.lede { display: grid; gap: 10px; margin-bottom: 26px; max-width: 70ch }
+.lede p { color: var(--muted); font-size: 1.02rem }
+.grid { display: grid; gap: 16px }
+.g2 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)) }
+.g3 { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)) }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 18px; min-width: 0 }
+.panel > * + * { margin-top: 10px }
+.block + .block { margin-top: 34px }
+.block > h3 { margin-bottom: 12px }
+.note { color: var(--muted); font-size: 0.88rem }
+.chip { display: inline-block; font: 500 0.72rem/1.6 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; padding: 0 7px; border-radius: 4px; border: 1px solid currentColor; white-space: nowrap }
+.c-accent { color: var(--accent) } .c-amber { color: var(--amber) } .c-danger { color: var(--danger) } .c-good { color: var(--good) } .c-muted { color: var(--muted) } .c-soon { color: var(--soon) }
+
+.tbl { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface) }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top }
+th { font: 600 0.74rem var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); background: var(--surface-2); white-space: nowrap }
+tr:last-child td { border-bottom: 0 }
+td.num, th.num { text-align: right; white-space: nowrap }
+
+/* Loop */
+.loop { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr)); gap: 10px; counter-reset: step }
+.step { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px 14px 14px 14px }
+.step .eyebrow { counter-increment: step }
+.step .eyebrow::before { content: counter(step) " / "; color: var(--accent) }
+.step h3 { margin: 6px 0 4px }
+.step p { font-size: 0.88rem; color: var(--muted) }
+.cycle { margin-top: 10px; font: 500 0.82rem var(--mono); color: var(--muted) }
+.res { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 14px }
+.res .panel h3 { display: flex; align-items: center; gap: 8px }
+.swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block }
+
+/* Structures */
+.viewer-shell { display: grid; grid-template-columns: 240px 1fr; gap: 16px }
+@media (max-width: 820px) { .viewer-shell { grid-template-columns: 1fr } }
+.picker { display: flex; flex-direction: column; gap: 6px }
+@media (max-width: 820px) { .picker { flex-direction: row; flex-wrap: wrap } }
+.picker button { text-align: left; font: 500 0.92rem var(--body); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; cursor: pointer }
+.picker button small { display: block; color: var(--muted); font: 0.72rem var(--mono); letter-spacing: 0.04em; text-transform: uppercase }
+.picker button[aria-pressed="true"] { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent) }
+.stage { position: relative; background: radial-gradient(ellipse at 50% 40%, var(--surface) 0%, var(--surface-2) 75%); border: 1px solid var(--line); border-radius: 8px; min-height: 420px; overflow: hidden }
+.stage canvas { display: block; width: 100%; height: 420px; touch-action: none }
+.stage .hint { position: absolute; left: 12px; bottom: 10px; font: 0.75rem var(--mono); color: var(--muted) }
+.stage .fallback { position: absolute; inset: 0; display: grid; place-items: center; padding: 20px; color: var(--muted); text-align: center }
+.spec { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); gap: 8px 16px; margin-top: 14px }
+.kv { display: grid; gap: 2px }
+.kv .k { font: 0.72rem var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted) }
+.kv .v { font: 600 1.05rem var(--mono); font-variant-numeric: tabular-nums }
+.legend-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; background: var(--amber); margin-right: 6px; vertical-align: middle }
+
+/* Tree */
+.tree-bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px }
+.branches { display: flex; gap: 6px; flex-wrap: wrap }
+.branches button, .btn { font: 600 0.78rem var(--display); letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 5px; padding: 6px 10px; cursor: pointer }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent) }
+.btn:disabled { opacity: 0.45; cursor: not-allowed }
+.spent { margin-left: auto; display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap }
+.spent .v { font: 600 1.2rem var(--mono) }
+.tree-shell { display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 16px; align-items: start }
+@media (max-width: 980px) { .tree-shell { grid-template-columns: 1fr } }
+.tree-frame { overflow: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); height: 560px; position: relative }
+.tree-canvas { position: relative }
+.tree-canvas svg { position: absolute; inset: 0; pointer-events: none }
+.tree-canvas svg path { fill: none; stroke: var(--line); stroke-width: 2 }
+.tree-canvas svg path.lit { stroke: var(--accent) }
+.blabel { position: absolute; top: 14px; font: 700 0.82rem var(--display); letter-spacing: 0.1em; color: var(--muted); white-space: nowrap; transform: translateX(-50%) }
+.node { position: absolute; width: 156px; min-height: 58px; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); text-align: left; cursor: pointer; font: inherit; display: grid; gap: 2px; transform: translate(-50%, -50%) }
+.node b { font: 600 0.8rem/1.2 var(--body) }
+.node span { font: 0.7rem var(--mono); color: var(--muted) }
+.node .pips { display: flex; gap: 2px; margin-top: 2px }
+.node .pips i { width: 10px; height: 3px; background: var(--line); border-radius: 1px }
+.node .pips i.f { background: var(--accent) }
+.node.owned { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
+.node.avail { border-color: var(--good) }
+.node.locked { opacity: 0.62 }
+.node.soon { border-style: dashed; border-color: var(--soon) }
+.node.sel { outline: 2px solid var(--amber); outline-offset: 2px }
+.detail { position: sticky; top: 72px }
+.detail .head { display: flex; justify-content: space-between; gap: 10px; align-items: start }
+.detail .actions { display: flex; gap: 8px; flex-wrap: wrap }
+.key { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; font-size: 0.8rem; color: var(--muted) }
+.key i { display: inline-block; width: 14px; height: 10px; border-radius: 2px; border: 1px solid var(--line); vertical-align: -1px; margin-right: 5px }
+
+/* Enemies */
+.enemy { display: grid; gap: 10px }
+.enemy .head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap }
+.enemy p { color: var(--muted); font-size: 0.9rem }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px 12px }
+.bar { height: 4px; background: var(--line); border-radius: 2px; margin-top: 4px; overflow: hidden }
+.bar i { display: block; height: 100%; background: var(--accent) }
+.bar.over i { background: var(--danger) }
+.wavechips { display: flex; gap: 4px; flex-wrap: wrap }
+.wavechips span { font: 0.72rem var(--mono); padding: 1px 6px; border-radius: 4px; background: var(--surface-2); border: 1px solid var(--line) }
+
+/* Interface */
+figure { margin: 0; display: grid; gap: 8px }
+figure img { width: 100%; border-radius: 6px; border: 1px solid var(--line); display: block; background: #000 }
+figcaption { font-size: 0.86rem; color: var(--muted) }
+figcaption b { color: var(--ink) }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important } }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand"><b>STELLAR DEFENDER</b><span>Field guide, build of 2026-11-14</span></div>
+    <nav class="tabs" aria-label="Sections">
+      <a href="#loop">Game loop</a>
+      <a href="#structures">Structures</a>
+      <a href="#tree">Upgrade tree</a>
+      <a href="#enemies">Enemies</a>
+      <a href="#interface">Interface</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<!-- LOOP -->
+<section id="s-loop" data-view="loop">
+  <div class="wrap">
+    <div class="lede">
+      <span class="eyebrow">How a run works</span>
+      <h2>Hold the planet for ten waves</h2>
+      <p>Enemy ships attack in waves. You shoot them down with your weapons, buy defenses between waves, and spend what you earned on permanent upgrades after the run. The planet sits at the center, 75 units across the radius, turning 6 degrees per second; you watch it from the equator, 450 units out.</p>
+    </div>
+
+    <div class="block">
+      <h3>The loop</h3>
+      <div class="loop" id="loopSteps"></div>
+      <p class="cycle">Steps 2 to 4 repeat each wave. The run ends after wave 10 (a win) or when the planet's health reaches zero.</p>
+    </div>
+
+    <div class="block">
+      <h3>Resources</h3>
+      <div class="res" id="resources"></div>
+    </div>
+
+    <div class="block">
+      <h3>Campaign waves</h3>
+      <p class="note" style="margin-bottom:10px">Waves 1 to 5 are written by hand; waves 6 to 10 are built by the AI Director. A wave's own health and damage factors stack with the difficulty's. Ships still alive when the time runs out stay for the next wave.</p>
+      <div class="tbl"><table id="waveTable"></table></div>
+    </div>
+
+    <div class="block grid g2">
+      <div>
+        <h3 style="margin-bottom:12px">Shop between waves (Passive)</h3>
+        <div class="tbl"><table id="shopTable"></table></div>
+        <p class="note" style="margin-top:8px">Prices rise by the scaling factor with each purchase in a run.</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom:12px">Abilities</h3>
+        <div class="tbl"><table id="abilityTable"></table></div>
+        <p class="note" style="margin-top:8px">Bought in the upgrade tree (Utilities). Level 2 shortens the cooldown to 75%.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>Choice of three</h3>
+      <p class="note" style="margin-bottom:10px" id="pickIntro"></p>
+      <div class="tbl"><table id="pickTable"></table></div>
+    </div>
+
+    <div class="block grid g2">
+      <div>
+        <h3 style="margin-bottom:12px">Difficulty</h3>
+        <div class="tbl"><table id="diffTable"></table></div>
+        <p class="note" style="margin-top:8px">Enemy speed no longer changes with difficulty. Health and damage do.</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom:12px">Heat modifiers</h3>
+        <div class="tbl"><table id="heatTable"></table></div>
+        <p class="note" style="margin-top:8px" id="heatNote"></p>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>Challenges</h3>
+      <div class="tbl"><table id="chalTable"></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- STRUCTURES -->
+<section id="s-structures" data-view="structures">
+  <div class="wrap">
+    <div class="lede">
+      <span class="eyebrow">Built this week</span>
+      <h2>Structures</h2>
+      <p>The turrets, stations, mine and the colony ship's two halves, as low-poly models from the make-model library. Drag to turn a model, scroll or pinch to zoom. <span class="legend-dot"></span>Amber dots mark attach points: where turrets mount on a station, the Bulwark's built-in guns, and the colony ship's gun barrels.</p>
+    </div>
+    <div class="viewer-shell">
+      <div class="picker" id="modelPicker" role="group" aria-label="Choose a structure"></div>
+      <div>
+        <div class="stage" id="stage">
+          <canvas id="gl" aria-label="3D model"></canvas>
+          <div class="fallback" id="glFallback" hidden></div>
+          <div class="hint">drag to turn &middot; scroll to zoom</div>
+        </div>
+        <div class="panel" style="margin-top:14px" id="modelInfo"></div>
+      </div>
+    </div>
+
+    <div class="block grid g2" style="margin-top:34px">
+      <figure><img src="img/bulwark_shield.jpg" alt="A Bulwark with its blue shield bubble and two Outposts in orbit around the planet" loading="lazy"><figcaption><b>Stations in orbit.</b> A Bulwark (hull 2,100, shield 1,050 here with upgrades) under its shield bubble, and two Outposts.</figcaption></figure>
+      <figure><img src="img/station_picker.jpg" alt="The station picker placing a Bulwark on an orbit ring" loading="lazy"><figcaption><b>Station picker (B).</b> Pick an orbit ring and a latitude; the ghost shows where the station goes.</figcaption></figure>
+      <figure><img src="img/vr_station_carry.jpg" alt="VR view carrying a station toward an orbit" loading="lazy"><figcaption><b>VR placement.</b> Grab a station from the wrist menu, carry it out and let go; it snaps to the nearest ring.</figcaption></figure>
+      <figure><img src="img/vr_mine.jpg" alt="VR view carrying a mine, with the range ring and a label reading 150 units out" loading="lazy"><figcaption><b>VR mine.</b> Reach out to set the distance (30 to 220 units) and let go.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- TREE -->
+<section id="s-tree" data-view="tree">
+  <div class="wrap">
+    <div class="lede">
+      <span class="eyebrow">Upgrade Points, kept between runs</span>
+      <h2>Upgrade tree</h2>
+      <p>All 69 cards as the game lays them out. Click a card for its cost and effect at every level. Use <b>Buy level</b> to plan a build: the planner tracks what you've spent, opens cards whose parents you own, and respects the point gates. Your plan stays in this browser.</p>
+    </div>
+    <div class="tree-bar">
+      <div class="branches" id="branchBar"></div>
+      <div class="spent">
+        <label class="note" for="starter">Starter weapon</label>
+        <select id="starter"></select>
+        <span class="note">Spent</span><span class="v" id="spentV">0</span>
+        <button class="btn" id="resetPlan" type="button">Refund all</button>
+      </div>
+    </div>
+    <div class="tree-shell">
+      <div>
+        <div class="tree-frame" id="treeFrame"><div class="tree-canvas" id="treeCanvas"><svg id="treeEdges"></svg></div></div>
+        <div class="key">
+          <span><i style="border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)"></i>owned</span>
+          <span><i style="border-color:var(--good)"></i>can buy now</span>
+          <span><i style="opacity:.6"></i>locked</span>
+          <span><i style="border:1px dashed var(--soon)"></i>coming soon (not in the game yet)</span>
+        </div>
+      </div>
+      <aside class="panel detail" id="detail" aria-live="polite"></aside>
+    </div>
+  </div>
+</section>
+
+<!-- ENEMIES -->
+<section id="s-enemies" data-view="enemies">
+  <div class="wrap">
+    <div class="lede">
+      <span class="eyebrow">Base species</span>
+      <h2>Enemy types</h2>
+      <p>Base stats before difficulty, wave and elite factors. Speeds are in game units per second (the planet's radius is 75). Points are what a kill pays before the difficulty's kill factor.</p>
+    </div>
+    <div class="grid g3" id="enemyGrid"></div>
+
+    <div class="block grid g2" style="margin-top:34px">
+      <div>
+        <h3 style="margin-bottom:12px">Shooter loadouts</h3>
+        <div class="tbl"><table id="loadoutTable"></table></div>
+        <p class="note" style="margin-top:8px">Shots every 4 s times the rate factor. Advanced Shooters fire both weapons, each on its own timer. Under an EMP jam, guns, beams and bombs keep firing; missiles do not launch.</p>
+      </div>
+      <div>
+        <h3 style="margin-bottom:12px">Variations</h3>
+        <div class="tbl"><table id="varTable"></table></div>
+        <h3 style="margin:22px 0 12px">Mine awareness</h3>
+        <div class="tbl"><table id="awareTable"></table></div>
+        <p class="note" style="margin-top:8px">Level 0 ignores mines. Level 1 steers around a mine's reach. Level 2 also flees a chasing mine it can outrun and keeps clear of a charging Focused Blast. Diving and jammed ships never react.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERFACE -->
+<section id="s-interface" data-view="interface">
+  <div class="wrap">
+    <div class="lede">
+      <span class="eyebrow">Screens from the automated tests</span>
+      <h2>Interface</h2>
+      <p>Screenshots from the playtest runs on 2026-11-13 and 14. VR shots come from a simulated headset rendered at a 90-degree field of view, so their edges look stretched.</p>
+    </div>
+    <div class="grid g2" id="gallery"></div>
+  </div>
+</section>
+</main>
+
+<script>
+const DATA = {"nodes":[{"id":156,"b":"StellarPunch","n":"Stellar Punch","d":"Your basic melee attack. Punch enemies with velocity-scaled damage.","L":1,"c":0,"m":1.5,"v0":1,"dv":0,"pct":0,"imp":1,"gate":0,"x":314,"y":112,"u":null},{"id":1101,"b":"StellarPunch","n":"Punch Range","d":"+10% punch range per level.","L":5,"c":200,"m":1.25,"v0":0.1,"dv":0.1,"pct":1,"imp":0,"gate":0,"x":130,"y":252,"u":null},{"id":1102,"b":"StellarPunch","n":"Punch Knockback","d":"+15% knockback per level.","L":5,"c":200,"m":1.25,"v0":0.15,"dv":0.15,"pct":1,"imp":0,"gate":0,"x":314,"y":252,"u":null},{"id":869,"b":"StellarPunch","n":"Shadow Punch","d":"Punches create shadow copies that also hit.","L":1,"c":3000,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":314,"y":364,"u":null},{"id":1103,"b":"StellarPunch","n":"Punch Speed","d":"+10% punch recovery speed per level.","L":5,"c":150,"m":1.25,"v0":0.1,"dv":0.1,"pct":1,"imp":0,"gate":0,"x":498,"y":252,"u":null},{"id":171,"b":"LaserBeam","n":"Laser Beam","d":"Continuous beam weapon. Draw back like a bow to fire.","L":1,"c":0,"m":1.5,"v0":1,"dv":0,"pct":0,"imp":1,"gate":0,"x":930,"y":112,"u":500},{"id":180,"b":"LaserBeam","n":"Laser Damage","d":"Increase laser beam damage per tick.","L":5,"c":150,"m":1.3,"v0":0.1,"dv":0.1,"pct":1,"imp":1,"gate":0,"x":746,"y":252,"u":null},{"id":1203,"b":"LaserBeam","n":"Focused Beam","d":"Narrow beam: +50% damage, -30% width. One beam mode at a time.","L":1,"c":1500,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":746,"y":364,"u":null},{"id":186,"b":"LaserBeam","n":"Laser Range","d":"Increase maximum laser beam range.","L":5,"c":200,"m":1.3,"v0":0.1,"dv":0.1,"pct":1,"imp":1,"gate":0,"x":930,"y":252,"u":null},{"id":1204,"b":"LaserBeam","n":"Wide Beam","d":"Broad beam that hits several enemies, -25% damage. One beam mode at a time.","L":1,"c":1500,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":930,"y":364,"u":null},{"id":189,"b":"LaserBeam","n":"Laser Efficiency","d":"Increase laser beam duration per charge.","L":5,"c":250,"m":1.3,"v0":0.1,"dv":0.1,"pct":1,"imp":1,"gate":0,"x":1114,"y":252,"u":null},{"id":1205,"b":"LaserBeam","n":"Piercing Beam","d":"The beam passes through the first enemy at 50% damage. One beam mode at a time.","L":1,"c":2000,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":1114,"y":364,"u":null},{"id":535,"b":"LaserBeam","n":"Arcing Beam","d":"The beam chains to nearby enemies.","L":1,"c":2500,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":1114,"y":476,"u":null},{"id":174,"b":"HomingMissile","n":"Homing Missile","d":"Launch a tracking missile. Clap to fire.","L":1,"c":0,"m":1.5,"v0":1,"dv":0,"pct":0,"imp":1,"gate":0,"x":1546,"y":112,"u":500},{"id":192,"b":"HomingMissile","n":"Missile Damage","d":"Increase missile explosion damage.","L":5,"c":150,"m":1.3,"v0":0.1,"dv":0.1,"pct":1,"imp":1,"gate":0,"x":1362,"y":252,"u":null},{"id":1301,"b":"HomingMissile","n":"Cluster Warhead","d":"Missiles split into 3 smaller missiles on a near miss. One missile mode at a time.","L":1,"c":2500,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":1362,"y":364,"u":null},{"id":195,"b":"HomingMissile","n":"Missile Tracking","d":"Improve missile homing accuracy and turn rate.","L":5,"c":200,"m":1.3,"v0":0.1,"dv":0.1,"pct":1,"imp":1,"gate":0,"x":1546,"y":252,"u":null},{"id":783,"b":"HomingMissile","n":"Second Missile","d":"Fire 2 missiles at once.","L":1,"c":2000,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":1546,"y":364,"u":null},{"id":1302,"b":"HomingMissile","n":"EMP Payload","d":"-30% damage; enemies hit are slowed for 3 s. One missile mode at a time.","L":1,"c":2000,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":1546,"y":476,"u":null},{"id":198,"b":"HomingMissile","n":"Missile Fire Rate","d":"Reduce cooldown between missile launches.","L":5,"c":150,"m":1.3,"v0":0.05,"dv":0.05,"pct":1,"imp":1,"gate":0,"x":1730,"y":252,"u":null},{"id":1303,"b":"HomingMissile","n":"Seeker Swarm","d":"Fire 3 weaker missiles that seek different targets. One missile mode at a time.","L":1,"c":3000,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":1730,"y":364,"u":null},{"id":1304,"b":"HomingMissile","n":"Third Missile","d":"Fire 3 missiles at once.","L":1,"c":3000,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":1730,"y":476,"u":null},{"id":177,"b":"MassDriver","n":"Mass Driver","d":"High-damage charged projectile. Charge and push to fire.","L":1,"c":0,"m":1.5,"v0":1,"dv":0,"pct":0,"imp":1,"gate":0,"x":2162,"y":112,"u":500},{"id":201,"b":"MassDriver","n":"Mass Driver Damage","d":"Increase mass driver projectile damage.","L":5,"c":150,"m":1.3,"v0":0.1,"dv":0.1,"pct":1,"imp":1,"gate":0,"x":1978,"y":252,"u":null},{"id":1401,"b":"MassDriver","n":"Ricochet","d":"Each hit bounces to the nearest other enemy within 160 units, up to 2 bounces, each at 70% of the hit before. Drawback: -25% damage.","L":1,"c":2000,"m":1,"v0":1,"dv":0,"pct":0,"imp":1,"gate":0,"x":1978,"y":364,"u":null},{"id":207,"b":"MassDriver","n":"Mass Driver Fire Rate","d":"Reduce charge time for mass driver.","L":5,"c":150,"m":1.3,"v0":0.05,"dv":0.05,"pct":1,"imp":1,"gate":0,"x":2162,"y":252,"u":null},{"id":1402,"b":"MassDriver","n":"Railgun","d":"Shots pierce every enemy in a line, fly 2.5x faster and do +25% damage. Drawback: 40% lower fire rate.","L":1,"c":2000,"m":1,"v0":1,"dv":0,"pct":0,"imp":1,"gate":0,"x":2162,"y":364,"u":null},{"id":204,"b":"MassDriver","n":"Mass Driver Speed","d":"Increase mass driver projectile velocity.","L":5,"c":200,"m":1.3,"v0":0.1,"dv":0.1,"pct":1,"imp":1,"gate":0,"x":2346,"y":252,"u":null},{"id":1403,"b":"MassDriver","n":"Explosive Rounds","d":"Shells burst on impact or at the aimed enemy: 45-unit blast, 30% damage at its edge. Drawback: -20% damage, 45% slower shells.","L":1,"c":2000,"m":1,"v0":1,"dv":0,"pct":0,"imp":1,"gate":0,"x":2346,"y":364,"u":null},{"id":1404,"b":"MassDriver","n":"Relativistic Round","d":"Charged shot with massive damage and a visible trajectory.","L":1,"c":3000,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":2346,"y":476,"u":null},{"id":1201,"b":"Stats","n":"Base Damage","d":"Increase damage for all attacks.","L":10,"c":100,"m":1.2,"v0":0.05,"dv":0.05,"pct":1,"imp":1,"gate":3000,"x":2594,"y":112,"u":null},{"id":1202,"b":"Stats","n":"Attack Speed","d":"Reduce cooldowns for all weapons.","L":10,"c":150,"m":1.2,"v0":0.03,"dv":0.03,"pct":1,"imp":1,"gate":3000,"x":2778,"y":112,"u":null},{"id":222,"b":"Stats","n":"Critical Chance","d":"Chance to deal critical damage.","L":10,"c":200,"m":1.25,"v0":0.02,"dv":0.02,"pct":1,"imp":1,"gate":3000,"x":2962,"y":112,"u":null},{"id":225,"b":"Stats","n":"Critical Damage","d":"Increase critical hit damage multiplier.","L":10,"c":300,"m":1.3,"v0":0.1,"dv":0.1,"pct":1,"imp":1,"gate":0,"x":2962,"y":224,"u":null},{"id":629,"b":"Stats","n":"Starting Resources","d":"Start each run with bonus temporary resources.","L":10,"c":100,"m":1.15,"v0":50,"dv":50,"pct":0,"imp":1,"gate":3000,"x":3146,"y":112,"u":null},{"id":700,"b":"Stats","n":"Passive Bonus","d":"Increase passive resource generation rate.","L":10,"c":150,"m":1.2,"v0":0.05,"dv":0.05,"pct":1,"imp":1,"gate":3000,"x":3330,"y":112,"u":null},{"id":2101,"b":"Stats","n":"Kill Bonus","d":"Increase resources gained from killing enemies.","L":10,"c":150,"m":1.2,"v0":0.05,"dv":0.05,"pct":1,"imp":1,"gate":3000,"x":3514,"y":112,"u":null},{"id":576,"b":"Stats","n":"Planet Health","d":"+10% continent health per level.","L":10,"c":300,"m":1.25,"v0":0.1,"dv":0.1,"pct":1,"imp":0,"gate":3000,"x":3698,"y":112,"u":null},{"id":234,"b":"DropMine","n":"Drop Mine","d":"Throw mines: desktop key 5, in VR grab one from the wrist menu. A mine arms, then chases an enemy that comes within 90 units and explodes when it is within 28. If the enemy outruns it, it goes off where it is. Up to 3 at once.","L":1,"c":0,"m":1.5,"v0":1,"dv":0,"pct":0,"imp":1,"gate":10000,"x":4314,"y":112,"u":1000},{"id":237,"b":"DropMine","n":"Mine Damage","d":"+10% mine blast damage per level (the Focused Blast too).","L":5,"c":200,"m":1.3,"v0":0.1,"dv":0.1,"pct":1,"imp":1,"gate":0,"x":3946,"y":252,"u":null},{"id":1501,"b":"DropMine","n":"Proximity Fuse","d":"Mines go off when an enemy comes near. One mine mode at a time.","L":1,"c":1500,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":3946,"y":364,"u":null},{"id":240,"b":"DropMine","n":"Mine Blast Radius","d":"+10% mine blast radius per level (45 units to start).","L":5,"c":250,"m":1.3,"v0":0.1,"dv":0.1,"pct":1,"imp":1,"gate":0,"x":4130,"y":252,"u":null},{"id":1502,"b":"DropMine","n":"Cluster Mine","d":"Mines split into 3 smaller mines when they go off. One mine mode at a time.","L":1,"c":2000,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":4130,"y":364,"u":null},{"id":243,"b":"DropMine","n":"Mine Capacity","d":"One more mine out at once per level. A mine dropped past the limit sets off the oldest.","L":3,"c":300,"m":1.5,"v0":1,"dv":1,"pct":0,"imp":1,"gate":0,"x":4314,"y":252,"u":null},{"id":1503,"b":"DropMine","n":"EMP Mine","d":"Mines disable enemy shields, less damage. One mine mode at a time.","L":1,"c":1500,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":4314,"y":364,"u":null},{"id":2301,"b":"DropMine","n":"Mine Aggro Radius","d":"+20% aggro radius per level (90 units to start): mines notice enemies and start the chase from farther away.","L":4,"c":300,"m":1.4,"v0":0.2,"dv":0.2,"pct":1,"imp":1,"gate":0,"x":4498,"y":252,"u":null},{"id":2303,"b":"DropMine","n":"Mine Recall","d":"When the enemy a mine chases escapes its aggro radius, the mine flies back to where you placed it and re-arms instead of going off.","L":1,"c":1500,"m":1.5,"v0":1,"dv":0,"pct":0,"imp":1,"gate":0,"x":4498,"y":364,"u":null},{"id":2304,"b":"DropMine","n":"Focused Blast","d":"When the enemy a mine chases escapes, the mine charges for 0.5 s (aiming at it), then fires a focused blast that reaches 1.2x the aggro radius. The blast uses up the mine. If the enemy is already out of reach, the mine returns as with Mine Recall.","L":1,"c":2500,"m":1.5,"v0":1,"dv":0,"pct":0,"imp":1,"gate":0,"x":4498,"y":476,"u":null},{"id":2302,"b":"DropMine","n":"Mine Speed","d":"A chasing mine flies at half the fastest enemy's top speed; +10% of that top speed per level, up to the top speed itself.","L":5,"c":300,"m":1.35,"v0":0.1,"dv":0.1,"pct":1,"imp":1,"gate":0,"x":4682,"y":252,"u":null},{"id":1023,"b":"Stations","n":"Space Stations","d":"Deploy Outpost stations: four turret mounts on an orbit you choose. Press B between waves.","L":1,"c":1,"m":1.5,"v0":1,"dv":0,"pct":0,"imp":1,"gate":5000,"x":5206,"y":112,"u":1500},{"id":2001,"b":"Stations","n":"Station Limit","d":"One more station out at once per level (2 to start).","L":2,"c":800,"m":1.5,"v0":1,"dv":1,"pct":0,"imp":1,"gate":0,"x":4930,"y":252,"u":null},{"id":2002,"b":"Stations","n":"Mid-Wave Deployment","d":"Deploy stations during a wave too. Time slows while you pick a spot.","L":1,"c":2000,"m":1.5,"v0":1,"dv":0,"pct":0,"imp":1,"gate":0,"x":5114,"y":252,"u":null},{"id":2003,"b":"Stations","n":"Bulwark Station","d":"Deploy Bulwarks (T in the picker): heavy hull, a shield, 2 turret mounts and 2 built-in point-defense guns. They draw enemy fire.","L":1,"c":1,"m":1.5,"v0":1,"dv":0,"pct":0,"imp":1,"gate":0,"x":5298,"y":252,"u":2500},{"id":2004,"b":"Stations","n":"Station Hull","d":"+25% hull and shield for every station per level.","L":3,"c":1000,"m":1.5,"v0":0.25,"dv":0.25,"pct":1,"imp":1,"gate":0,"x":5482,"y":252,"u":null},{"id":1005,"b":"Turrets","n":"Extra Turret","d":"One more turret slot on the planet ring.","L":1,"c":1500,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":6006,"y":112,"u":null},{"id":1104,"b":"Turrets","n":"Turret Damage","d":"+15% turret damage per level.","L":5,"c":300,"m":1.25,"v0":0.15,"dv":0.15,"pct":1,"imp":0,"gate":0,"x":5730,"y":252,"u":null},{"id":1105,"b":"Turrets","n":"Turret Fire Rate","d":"+10% turret fire rate per level.","L":5,"c":300,"m":1.25,"v0":0.1,"dv":0.1,"pct":1,"imp":0,"gate":0,"x":5914,"y":252,"u":null},{"id":1106,"b":"Turrets","n":"Turret Range","d":"+10% turret range per level.","L":5,"c":250,"m":1.25,"v0":0.1,"dv":0.1,"pct":1,"imp":0,"gate":0,"x":6098,"y":252,"u":null},{"id":1011,"b":"Turrets","n":"Second Turret","d":"A second extra turret slot.","L":1,"c":2500,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":6282,"y":252,"u":null},{"id":249,"b":"Utilities","n":"Time Slow","d":"Key C: enemies and their shots move at 30% speed for 6 s; you, turrets and stations keep full speed. Cooldown 35 s; level 2: 26 s.","L":2,"c":2000,"m":1.5,"v0":1,"dv":1,"pct":0,"imp":1,"gate":0,"x":6530,"y":112,"u":null},{"id":2201,"b":"Utilities","n":"EMP","d":"Key X: every enemy ship within 3.5 planet radii loses guidance for 4 s and coasts straight on (shooters keep firing guns, beams and bombs at their last aim but launch no missiles); missiles in flight lose homing. Cooldown 30 s; level 2: 22.5 s.","L":2,"c":2500,"m":1.5,"v0":1,"dv":1,"pct":0,"imp":1,"gate":0,"x":6714,"y":112,"u":null},{"id":541,"b":"Utilities","n":"Orbital Strike","d":"Key Z: a strike on the point under the cursor 1.5 s later: 400 damage at the center, 40% at the 60-unit edge. Cooldown 20 s; level 2: 15 s.","L":2,"c":3000,"m":1.5,"v0":1,"dv":1,"pct":0,"imp":1,"gate":0,"x":6898,"y":112,"u":null},{"id":252,"b":"Utilities","n":"Shield Burst","d":"The planet cannot be damaged for a few seconds.","L":1,"c":2500,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":7082,"y":112,"u":null},{"id":2401,"b":"Utilities","n":"Radar","d":"A radar mini map: the planet and its continents seen from above, every enemy ship as a dot in its type's color, your stations and mines, and where you are and look. SETTINGS shows or hides it and sets which way is up.","L":1,"c":1500,"m":1,"v0":1,"dv":0,"pct":0,"imp":1,"gate":0,"x":7266,"y":112,"u":null},{"id":1601,"b":"Synergy","n":"Ordnance Expert","d":"Needs Missile and Mass Driver upgrades. All projectiles +10% speed.","L":1,"c":2000,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":7514,"y":112,"u":null},{"id":1602,"b":"Synergy","n":"Multi-Specialist","d":"Needs an upgrade in each starter weapon. +5% damage per weapon tree.","L":1,"c":2500,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":7698,"y":112,"u":null},{"id":1604,"b":"Synergy","n":"Weapon Master","d":"+10% damage and fire rate to all weapons.","L":1,"c":3000,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":7698,"y":224,"u":null},{"id":1603,"b":"Synergy","n":"Combined Arms","d":"Needs Punch Range and Base Damage. Punched enemies take +15% projectile damage.","L":1,"c":2500,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":7882,"y":112,"u":null},{"id":1605,"b":"Synergy","n":"Tactical Genius","d":"Needs a turret slot and the mine. Turrets prefer enemies near mines.","L":1,"c":3000,"m":1,"v0":1,"dv":0,"pct":0,"imp":0,"gate":0,"x":8066,"y":112,"u":null}],"edges":[[156,1101],[156,1102],[156,1103],[1102,869],[171,180],[171,186],[171,189],[180,1203],[186,1204],[189,1205],[189,535],[174,192],[174,195],[174,198],[192,1301],[195,783],[195,1302],[198,1303],[198,1304],[177,201],[177,207],[177,204],[201,1401],[207,1402],[204,1403],[204,1404],[222,225],[234,237],[234,240],[234,243],[234,2301],[234,2302],[2301,2303],[2303,2304],[237,1501],[240,1502],[243,1503],[1023,2001],[1023,2002],[1023,2003],[1023,2004],[1005,1104],[1005,1105],[1005,1106],[1005,1011],[192,1601],[201,1601],[180,1602],[192,1602],[201,1602],[1602,1604],[1101,1603],[1201,1603],[1005,1605],[234,1605]],"picks":[{"n":"Focused Fire","cat":"Offense","rar":"Common","stacks":3,"d":"+12% damage with your weapons."},{"n":"Rapid Cycling","cat":"Offense","rar":"Common","stacks":3,"d":"Cannon, missiles and Mass Driver fire 15% faster."},{"n":"Targeting Uplink","cat":"Offense","rar":"Common","stacks":3,"d":"+8% chance of a critical hit (double damage or more)."},{"n":"Penetrator Rounds","cat":"Offense","rar":"Uncommon","stacks":2,"d":"Cannon and Mass Driver shots pass through 1 more enemy."},{"n":"Weakness Exploit","cat":"Offense","rar":"Uncommon","stacks":1,"d":"+50% damage to enemies under 30% health."},{"n":"Thermal Conductor","cat":"Offense","rar":"Uncommon","stacks":1,"d":"Each kill: +2% damage until the wave ends (max +20%)."},{"n":"Capacitor Bank","cat":"Offense","rar":"Uncommon","stacks":1,"d":"Ability cooldowns 20% shorter."},{"n":"Reactive Barrier","cat":"Defense","rar":"Common","stacks":2,"d":"+60 planetary shield; it regenerates 6 per second."},{"n":"Hardened Continents","cat":"Defense","rar":"Common","stacks":2,"d":"Continents take 15% less damage."},{"n":"Repair Drone Swarm","cat":"Defense","rar":"Uncommon","stacks":2,"d":"At each rest, continents repair 10% of their health."},{"n":"Artillery Network","cat":"Defense","rar":"Uncommon","stacks":1,"d":"With 3 or more turrets out, turrets deal +35% damage."},{"n":"Scrap Valorization","cat":"Economy","rar":"Common","stacks":2,"d":"Each kill pays 4 Passive resources."},{"n":"Vault Reserve","cat":"Economy","rar":"Uncommon","stacks":1,"d":"At each rest, 15% interest on unspent Passive (max 75)."},{"n":"Glass Cannon","cat":"Trade-off","rar":"Rare","stacks":1,"d":"+35% damage for you and turrets; the planet takes 30% more damage."},{"n":"War Profiteer","cat":"Trade-off","rar":"Rare","stacks":1,"d":"+30% Upgrade Points from kills; Passive income -30%."},{"n":"Turret Doctrine","cat":"Trade-off","rar":"Rare","stacks":1,"d":"Turrets deal +40% damage; your weapons deal 15% less."}],"enemies":[{"key":"Suicider","n":"Suicider","role":"Kamikaze","d":"Flies at the planet weaving or in a pattern. About 3 s from the surface it picks a healthy continent inside a 35-degree cone, leads the planet's spin and dives in a straight line. With no land in the cone it holds altitude for up to 10 s rather than hit the ocean.","hp":30,"spd":16,"planet":25,"pts":10,"atk":0,"cd":0.1,"waves":[1,2,3,4,5]},{"key":"Shooter","n":"Shooter","role":"Gunship","d":"Closes to orbit, circles the planet at 30 degrees per second and fires its loadout at the surface: one shot per cooldown (4 s, times the loadout's rate). Missiles, beams and bombs all damage continents; shots that land in the ocean do nothing.","hp":50,"spd":8,"planet":5,"pts":25,"atk":3,"cd":4,"waves":[1,2,3,4,5]},{"key":"Healer","n":"Healer","role":"Support","d":"Follows the group and heals the most damaged ally nearby. Destroy it first.","hp":40,"spd":8,"planet":5,"pts":35,"atk":0,"cd":1,"waves":[3,4,5],"extra":"Heals 15 every 2.5 s within 12 units"},{"key":"Blocker","n":"Blocker","role":"Shield tank","d":"Moves between you and its allies and shields everything within its radius, halving the damage they take.","hp":120,"spd":10,"planet":15,"pts":30,"atk":0,"cd":1,"waves":[4,5],"extra":"Shield radius 10, damage taken x0.5"},{"key":"Spawner","n":"Spawner","role":"Carrier","d":"Holds back at long range in a slow orbit and keeps launching minions while it lives.","hp":80,"spd":6,"planet":10,"pts":40,"atk":0,"cd":1,"waves":[5],"extra":"A minion every 2 s, up to 6"},{"key":"SynapseDrone","n":"Synapse Drone","role":"Swarm","d":"Flies in V-formation squads that circle the planet, then dive together. A squad scatters when one drone is hit and goes into a frenzy when only two are left.","hp":35,"spd":7,"planet":15,"pts":5,"atk":10,"cd":2,"waves":[]},{"key":"NexusPylon","n":"Nexus Pylon","role":"Amplifier","d":"Positions behind an enemy cluster and pulses buffs to nearby allies: faster fire, more damage, more speed. Buffs end when it dies.","hp":180,"spd":3.5,"planet":0,"pts":150,"atk":10,"cd":2,"waves":[]},{"key":"Wraith","n":"Wraith","role":"Trickster","d":"Phases in and out on a predictable cycle and cannot be hit while phased. Time your shots to the cycle.","hp":75,"spd":6,"planet":0,"pts":50,"atk":15,"cd":8,"waves":[]},{"key":"RiftWeaver","n":"Rift Weaver","role":"Zone control","d":"Deploys lasting gravity rifts that control space and bend projectiles.","hp":175,"spd":3.5,"planet":0,"pts":150,"atk":10,"cd":2,"waves":[]},{"key":"IronLeviathan","n":"Iron Leviathan","role":"Boss","d":"A capital ship. Advances slowly to long range, carries destructible turrets of its own and drops into siege mode, doubling its fire rate.","hp":2500,"spd":1.5,"planet":0,"pts":500,"atk":8,"cd":2,"waves":[]}],"loadouts":[{"n":"Advanced BeamProjectile","p":"Beam","s":"Plain shot","r":0.7},{"n":"Advanced DoubleMissile","p":"Missile","s":"Missile","r":1.5},{"n":"Advanced MissileBomb","p":"Missile","s":"Bomb","r":1.3},{"n":"Standard Beam","p":"Beam","s":null,"r":0.8},{"n":"Standard Bomb","p":"Bomb","s":null,"r":1.5},{"n":"Standard Missile","p":"Missile","s":null,"r":1.2},{"n":"Standard Projectile","p":"Plain shot","s":null,"r":1}],"variations":[{"n":"Elite","d":"Elite enemies - larger, gold/orange tinted, bright glow. Visually intimidating command units.","s":"1.3-1.5x"},{"n":"None","d":"No variation - enemies appear in their default form.","s":"1-1x"},{"n":"Stealth","d":"Stealth suiciders - half size, dark colors, reduced glow. Harder to spot against space background.","s":"0.5-0.7x"},{"n":"Subtle","d":"Subtle size and emission variation for variety without major tactical impact.","s":"0.85-1.15x"}],"waves":[{"n":"Wave 1 - First Contact","t":60,"rest":15,"hp":1,"dmg":1,"e":[{"n":"Suicider","c":5,"lo":""},{"n":"Shooter","c":2,"lo":"Projectile"}]},{"n":"Wave 2 - Weaving Assault","t":60,"rest":15,"hp":1,"dmg":1,"e":[{"n":"Suicider","c":6,"lo":""},{"n":"Shooter","c":3,"lo":"Projectile"}]},{"n":"Wave 3 - Chaos Swarm","t":60,"rest":15,"hp":0.8,"dmg":0.8,"e":[{"n":"Suicider","c":10,"lo":""},{"n":"Shooter","c":2,"lo":"Beam"},{"n":"Healer","c":1,"lo":""}]},{"n":"Wave 4 - Evasive Siege","t":90,"rest":15,"hp":1.3,"dmg":1.2,"e":[{"n":"Suicider","c":6,"lo":""},{"n":"Shooter","c":2,"lo":"Beam"},{"n":"Shooter","c":2,"lo":"Missile"},{"n":"Advanced Shooter","c":1,"lo":"MissileBomb"},{"n":"Blocker","c":2,"lo":""},{"n":"Healer","c":1,"lo":""}]},{"n":"Wave 5 - Elite Strike","t":120,"rest":30,"hp":1.5,"dmg":1.3,"e":[{"n":"Shooter","c":1,"lo":"Missile"},{"n":"Shooter","c":1,"lo":"Bomb"},{"n":"Shooter","c":1,"lo":"Beam"},{"n":"Suicider","c":8,"lo":""},{"n":"Blocker","c":2,"lo":""},{"n":"Healer","c":2,"lo":""},{"n":"Spawner","c":1,"lo":""},{"n":"Shooter","c":2,"lo":"Missile"},{"n":"Advanced Shooter","c":2,"lo":"DoubleMissile"}]}],"shop":[{"n":"Ballistic Turret","d":"Deploy a cannon turret. High damage projectiles.","c":150,"k":1.6,"wave":2,"run":3},{"n":"Overcharge","d":"Increase all damage by 25% for the next wave.","c":60,"k":1.5,"wave":1,"run":0},{"n":"Global Repair","d":"Repair all continents for 50 health.","c":80,"k":1.4,"wave":1,"run":0},{"n":"Laser Turret","d":"Deploy an automated laser turret. Weak damage, instant hit.","c":100,"k":1.5,"wave":1,"run":4},{"n":"Planetary Shield","d":"Deploy an energy shield that absorbs 100 damage before the planet takes hits.","c":75,"k":1.3,"wave":1,"run":0},{"n":"Homing Missile Turret","d":"Deploy a turret that fires tracking missiles at enemies. Damage: 30, Range: 70","c":120,"k":null,"wave":1,"run":2},{"n":"Point Defense Turret","d":"Deploy a rapid-fire turret that shoots down enemy projectiles. Damage: 5, Range: 35","c":80,"k":null,"wave":1,"run":2}],"abilities":{"orbitalStrike":{"cooldown":20,"delay":1.5,"radius":60,"damage":400,"edgeFactor":0.4,"maxDistance":2000},"emp":{"cooldown":30,"radiusInPlanetRadii":3.5,"stunSeconds":4,"clearShotsInFlight":0},"timeSlow":{"cooldown":35,"duration":6,"enemySpeed":0.3},"level2CooldownMultiplier":0.75},"difficulties":[{"displayName":"Easy","enemyHealth":0.75,"enemyDamage":0.75,"enemySpeed":1,"enemyCount":0.8,"passiveResources":1.3,"killPoints":0.5,"waveBonusFactor":1},{"displayName":"Normal","enemyHealth":1,"enemyDamage":1,"enemySpeed":1,"enemyCount":1,"passiveResources":1,"killPoints":1,"waveBonusFactor":1.5},{"displayName":"Hard","enemyHealth":1.3,"enemyDamage":1.25,"enemySpeed":1,"enemyCount":1.25,"passiveResources":0.8,"killPoints":1.5,"waveBonusFactor":2}],"heat":[{"id":0,"displayName":"Armored","description":"Enemies have 50% more health.","heat":2,"value":1.5},{"id":1,"displayName":"Overdrive","description":"Enemies and their shots move 25% faster.","heat":2,"value":1.25},{"id":2,"displayName":"Heavy Fire","description":"Enemies do 50% more damage to the planet and stations.","heat":2,"value":1.5},{"id":3,"displayName":"Lean Supply","description":"The planet produces 40% fewer Passive resources.","heat":1,"value":0.6},{"id":4,"displayName":"Scorched Start","description":"Every continent starts at 60% health.","heat":1,"value":0.6},{"id":5,"displayName":"Reinforcements","description":"Every wave sends 50% more ships.","heat":3,"value":1.5},{"id":6,"displayName":"No Stations","description":"Space stations cannot be deployed this run.","heat":1,"value":1}],"challenges":[{"n":"Orbital Command","d":"Your guns are offline. Orbital Strike (cooldown halved) and the turrets you buy hold 6 waves.","bonus":0.75,"waves":6},{"n":"Bullet Time","d":"Fast, hard-hitting ships. The Cannon and Time Slow are all you have.","bonus":0.5,"waves":8},{"n":"EMP Siege","d":"Half again as many ships and heavier fire. EMP is your one ability: it cuts their guidance, not their momentum. Pulse while ships are still curving in, not once they dive.","bonus":0.5,"waves":8},{"n":"Mass Driver Only","d":"Armored ships, one gun: the Mass Driver. No abilities.","bonus":0.4,"waves":10},{"n":"Station Keeper","d":"No planet turrets for sale. Space stations (lent for this run) and your guns defend the planet.","bonus":0.5,"waves":10}],"payoutPerHeat":0.1,"runChoice":{"firstOfferAfterWave":1,"cardsPerOffer":3,"skipPayout":50,"commonWeight":3,"uncommonWeight":2,"rareWeight":1}};
+const $ = (s, r = document) => r.querySelector(s);
+const el = (tag, attrs = {}, html = "") => { const e = document.createElement(tag); for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v); if (html) e.innerHTML = html; return e; };
+const fmt = n => (Math.round(n) === n ? n : +n.toFixed(1)).toLocaleString("en-US");
+const pct = f => `${+(f * 100).toFixed(1)}%`;
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+/* ---------- routing ---------- */
+const VIEWS = ["loop", "structures", "tree", "enemies", "interface"];
+function route() {
+  const v = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "loop";
+  document.querySelectorAll("main section").forEach(s => s.classList.toggle("on", s.dataset.view === v));
+  document.querySelectorAll("nav.tabs a").forEach(a => { if (a.getAttribute("href") === "#" + v) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+  if (v === "structures") window.dispatchEvent(new Event("show-structures"));
+}
+addEventListener("hashchange", route);
+
+/* ---------- loop ---------- */
+const steps = [
+  ["Main menu", "Run setup", "Pick a difficulty, switch on heat modifiers for a bigger payout, or start a challenge."],
+  ["Wave", "Fight", "Ships approach in a band around eye level. Shoot them; the planet earns Passive resources, kills earn Kill resources."],
+  ["Rest", "Shop", "A 15 s break. Spend Passive on turrets, shields, repairs and stations. START WAVE skips the wait."],
+  ["After a wave", "Choice of three", "Take one of three run-only cards, or skip it for 50 Passive."],
+  ["Run over", "Upgrade tree", "Kill resources become Upgrade Points, plus a wave bonus and heat payout. Spend them in UPGRADES."],
+];
+$("#loopSteps").append(...steps.map(([e, h, p]) => el("div", { class: "step" }, `<span class="eyebrow">${e}</span><h3>${h}</h3><p>${p}</p>`)));
+
+const res = [
+  ["var(--accent)", "Passive", "This run only", "Produced by the continents during the run; the healthier the planet, the faster it flows (the shop shows the rate, for example +4.3/s). Pays for everything in the shop and for stations. Easy pays 1.3x, Hard 0.8x."],
+  ["var(--amber)", "Kill", "This run, then banked", "Earned for each ship destroyed: its point value times the difficulty's kill factor (Easy 0.5x, Normal 1x, Hard 1.5x). Banked as Upgrade Points when the run ends, won or lost."],
+  ["var(--good)", "Upgrade Points", "Kept on the profile", "Pay for weapons (500 each beyond the starter), the tree's cards, the mine, stations and the radar. REFUND ALL gives every point back for free, so a build can be changed."],
+  ["var(--danger)", "Heat", "Multiplies the payout", `Each heat point from a modifier adds ${pct(DATA.payoutPerHeat)} to the run's Upgrade Points. Challenges pay a fixed bonus instead.`],
+];
+$("#resources").append(...res.map(([c, n, sub, d]) => el("div", { class: "panel" }, `<h3><i class="swatch" style="background:${c}"></i>${n}</h3><span class="eyebrow">${sub}</span><p>${d}</p>`)));
+
+$("#waveTable").innerHTML = `<thead><tr><th>Wave</th><th class="num">Length</th><th class="num">Health</th><th class="num">Damage</th><th>Ships</th></tr></thead><tbody>${
+  DATA.waves.map((w, i) => `<tr><td><b>${esc(w.n.replace(/^Wave \d+ - /, ""))}</b><br><span class="note">Wave ${i + 1}</span></td><td class="num">${w.t} s</td><td class="num">${w.hp}x</td><td class="num">${w.dmg}x</td><td>${w.e.map(e => `${e.c} ${esc(e.n)}${e.lo ? ` <span class="note">(${esc(e.lo.toLowerCase())})</span>` : ""}`).join(", ")}</td></tr>`).join("")
+}<tr><td><b>AI Director</b><br><span class="note">Waves 6-10</span></td><td class="num">-</td><td class="num">-</td><td class="num">-</td><td>Built per run from the enemy roster; a boss every fifth wave.</td></tr></tbody>`;
+
+$("#shopTable").innerHTML = `<thead><tr><th>Item</th><th class="num">Price</th><th class="num">Per run</th></tr></thead><tbody>${
+  DATA.shop.map(s => `<tr><td><b>${esc(s.n)}</b><br><span class="note">${esc(s.d)}${s.wave > 1 ? ` From wave ${s.wave}.` : ""}</span></td><td class="num">${s.c}${s.k ? `<br><span class="note">x${s.k}</span>` : ""}</td><td class="num">${s.run || "no limit"}</td></tr>`).join("")
+}<tr><td><b>Outpost station</b><br><span class="note">Hull 400, four turret mounts. Needs the Space Stations card.</span></td><td class="num">150<br><span class="note">+ turrets</span></td><td class="num">2</td></tr><tr><td><b>Bulwark station</b><br><span class="note">Hull 1,200, shield 600, two mounts, two built-in point-defense guns.</span></td><td class="num">400<br><span class="note">+ turrets</span></td><td class="num">2</td></tr></tbody>`;
+
+const A = DATA.abilities;
+$("#abilityTable").innerHTML = `<thead><tr><th>Ability</th><th>Key</th><th class="num">Cooldown</th></tr></thead><tbody>
+<tr><td><b>Orbital Strike</b><br><span class="note">Hits the point under the cursor ${A.orbitalStrike.delay} s later: ${A.orbitalStrike.damage} damage in a ${A.orbitalStrike.radius}-unit radius (${pct(A.orbitalStrike.edgeFactor)} at the edge).</span></td><td class="mono">Z / A</td><td class="num">${A.orbitalStrike.cooldown} s</td></tr>
+<tr><td><b>EMP</b><br><span class="note">Ships within ${A.emp.radiusInPlanetRadii} planet radii lose guidance for ${A.emp.stunSeconds} s and coast straight on. Missiles don't launch; guns keep firing.</span></td><td class="mono">X / B</td><td class="num">${A.emp.cooldown} s</td></tr>
+<tr><td><b>Time Slow</b><br><span class="note">Enemies and their shots move at ${pct(A.timeSlow.enemySpeed)} speed for ${A.timeSlow.duration} s. You and your turrets don't slow.</span></td><td class="mono">C / X</td><td class="num">${A.timeSlow.cooldown} s</td></tr></tbody>`;
+
+const rc = DATA.runChoice;
+$("#pickIntro").textContent = `From wave ${rc.firstOfferAfterWave} on, each wave ends with ${rc.cardsPerOffer} cards drawn from this pool (common ${rc.commonWeight} : uncommon ${rc.uncommonWeight} : rare ${rc.rareWeight}). A pick lasts until the run ends; SKIP pays ${rc.skipPayout} Passive.`;
+const catColor = { "Offense": "c-danger", "Defense": "c-accent", "Economy": "c-amber", "Trade-off": "c-soon" };
+$("#pickTable").innerHTML = `<thead><tr><th>Card</th><th>Type</th><th>Rarity</th><th>Effect</th><th class="num">Stacks</th></tr></thead><tbody>${
+  DATA.picks.map(p => `<tr><td><b>${esc(p.n)}</b></td><td><span class="chip ${catColor[p.cat]}">${p.cat}</span></td><td class="note">${p.rar}</td><td>${esc(p.d)}</td><td class="num">${p.stacks}</td></tr>`).join("")}</tbody>`;
+
+$("#diffTable").innerHTML = `<thead><tr><th>Level</th><th class="num">Health</th><th class="num">Damage</th><th class="num">Ships</th><th class="num">Passive</th><th class="num">Kill</th></tr></thead><tbody>${
+  DATA.difficulties.map(d => `<tr><td><b>${d.displayName}</b></td><td class="num">${d.enemyHealth}x</td><td class="num">${d.enemyDamage}x</td><td class="num">${d.enemyCount}x</td><td class="num">${d.passiveResources}x</td><td class="num">${d.killPoints}x</td></tr>`).join("")}</tbody>`;
+$("#heatTable").innerHTML = `<thead><tr><th>Modifier</th><th>Effect</th><th class="num">Heat</th></tr></thead><tbody>${
+  DATA.heat.map(h => `<tr><td><b>${esc(h.displayName)}</b></td><td>${esc(h.description)}</td><td class="num">${h.heat}</td></tr>`).join("")}</tbody>`;
+$("#heatNote").textContent = `Every heat point adds ${pct(DATA.payoutPerHeat)} to the run's Upgrade Points.`;
+$("#chalTable").innerHTML = `<thead><tr><th>Challenge</th><th>Rules</th><th class="num">Waves</th><th class="num">Bonus</th></tr></thead><tbody>${
+  DATA.challenges.map(c => `<tr><td><b>${esc(c.n)}</b></td><td>${esc(c.d)}</td><td class="num">${c.waves}</td><td class="num">+${pct(c.bonus)}</td></tr>`).join("")}</tbody>`;
+
+/* ---------- enemies ---------- */
+const maxHp = 200;
+$("#enemyGrid").append(...DATA.enemies.map(e => {
+  const hpW = Math.min(1, e.hp / maxHp), spW = Math.min(1, e.spd / 16), pdW = Math.min(1, e.planet / 25);
+  const card = el("article", { class: "panel enemy" });
+  card.innerHTML = `<div class="head"><h3>${esc(e.n)}</h3><span class="chip ${e.role === "Boss" ? "c-danger" : "c-accent"}">${e.role}</span></div>
+  <p>${esc(e.d)}</p>
+  <div class="stats">
+    <div class="kv"><span class="k">Health</span><span class="v">${fmt(e.hp)}</span><div class="bar ${e.hp > maxHp ? "over" : ""}"><i style="width:${hpW * 100}%"></i></div></div>
+    <div class="kv"><span class="k">Speed</span><span class="v">${fmt(e.spd)}</span><div class="bar"><i style="width:${spW * 100}%"></i></div></div>
+    <div class="kv"><span class="k">Ram damage</span><span class="v">${fmt(e.planet)}</span><div class="bar"><i style="width:${pdW * 100}%"></i></div></div>
+    <div class="kv"><span class="k">Points</span><span class="v">${fmt(e.pts)}</span></div>
+    <div class="kv"><span class="k">Shot damage</span><span class="v">${e.atk ? fmt(e.atk) : "-"}</span></div>
+    <div class="kv"><span class="k">Cooldown</span><span class="v">${e.atk ? fmt(e.cd) + " s" : "-"}</span></div>
+  </div>
+  ${e.extra ? `<p class="mono" style="font-size:.8rem">${esc(e.extra)}</p>` : ""}
+  <div class="wavechips">${e.waves.length ? e.waves.map(w => `<span>W${w}</span>`).join("") : `<span>AI Director only</span>`}</div>`;
+  return card;
+}));
+$("#loadoutTable").innerHTML = `<thead><tr><th>Loadout</th><th>Primary</th><th>Secondary</th><th class="num">Rate</th></tr></thead><tbody>${
+  DATA.loadouts.map(l => `<tr><td><b>${esc(l.n)}</b></td><td>${l.p}</td><td>${l.s || "-"}</td><td class="num">${l.r}x</td></tr>`).join("")}</tbody>`;
+$("#varTable").innerHTML = `<thead><tr><th>Variation</th><th>Look</th><th class="num">Size</th></tr></thead><tbody>${
+  DATA.variations.map(v => `<tr><td><b>${esc(v.n)}</b></td><td>${esc(v.d)}</td><td class="num">${v.s}</td></tr>`).join("")}</tbody>`;
+$("#awareTable").innerHTML = `<thead><tr><th>Difficulty</th><th class="num">Regular ships</th><th class="num">Elite ships</th></tr></thead><tbody>
+<tr><td><b>Easy</b></td><td class="num">0</td><td class="num">0</td></tr><tr><td><b>Normal</b></td><td class="num">0</td><td class="num">1</td></tr><tr><td><b>Hard</b></td><td class="num">1</td><td class="num">2</td></tr></tbody>`;
+
+/* ---------- interface gallery ---------- */
+const shots = [
+  ["radar", "Radar mini map", "Bought in the tree (1,500). Top-down view of the planet, its continents' health, enemy dots by type, stations, mines, and your view wedge. Amber arrows beside the planet point at ships behind it; red ones at the screen edge point at ships out of view."],
+  ["radar_grouping", "Spawn notifier grouping", "24 ships collapse into 10 markers, at most one per direction and kind, with a count."],
+  ["radar_view", "Radar: MY VIEW", "After turning 90 degrees, the map turns with you: up is where you look."],
+  ["radar_fixed", "Radar: LEVEL START", "The same moment with the map fixed to the start of the level."],
+  ["radar_vr", "Radar in VR", "A HUD panel on the left; markers sit on the panel ring, never stuck to your face."],
+  ["vr_hud", "VR HUD", "Wave state, ability boxes (A, B, X), planet status and the gesture list float around you and follow your body loosely."],
+  ["vr_choice", "Choice of three in VR", "Cards turn to face you. Point and pull the trigger."],
+  ["vr_pause", "VR pause", "Left menu button. ADJUST INTERFACE moves and sizes the panels; it's saved per profile."],
+  ["vr_adjusted", "Adjust interface", "Panels dragged to new spots, nearer or farther, smaller or larger."],
+  ["vr_dev", "Dev mode", "Both thumbsticks held for 2 s (F2 on desktop): performance, wave, hands, XR, enemies and cheats tabs. Stripped from release builds."],
+  ["shop", "Upgrade shop", "Between waves. Passive buys turrets, shields and repairs; DEPLOY STATION opens the picker."],
+  ["tree", "Upgrade tree in the game", "The same cards as the Upgrade tree page."],
+];
+$("#gallery").append(...shots.map(([f, t, c]) => el("figure", {}, `<img src="img/${f}.jpg" alt="${esc(t)}" loading="lazy"><figcaption><b>${esc(t)}.</b> ${esc(c)}</figcaption>`)));
+
+/* ---------- tree ---------- */
+const nodes = DATA.nodes, byId = Object.fromEntries(nodes.map(n => [n.id, n]));
+const parents = {}, children = {};
+for (const [a, b] of DATA.edges) { (parents[b] ||= []).push(a); (children[a] ||= []).push(b); }
+const BR = [["StellarPunch", "Stellar Punch"], ["LaserBeam", "Laser"], ["HomingMissile", "Missile"], ["MassDriver", "Mass Driver"], ["Stats", "Stats"], ["DropMine", "Drop Mine"], ["Stations", "Stations"], ["Turrets", "Turrets"], ["Utilities", "Utilities"], ["Synergy", "Synergy"]];
+const WEAPONS = [156, 171, 174, 177];
+const PAD = 100, maxX = Math.max(...nodes.map(n => n.x)), maxY = Math.max(...nodes.map(n => n.y));
+const W = maxX + PAD * 2, H = maxY + 80;
+const canvas = $("#treeCanvas"); canvas.style.width = W + "px"; canvas.style.height = H + "px";
+const svg = $("#treeEdges"); svg.setAttribute("width", W); svg.setAttribute("height", H); svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+const X = n => n.x + PAD, Y = n => n.y + 10;
+
+let plan = {}, starter = 177, sel = 177;
+try { const s = JSON.parse(localStorage.getItem("sd-plan") || "null"); if (s) { plan = s.plan || {}; starter = s.starter || 177; } } catch (e) {}
+const save = () => { try { localStorage.setItem("sd-plan", JSON.stringify({ plan, starter })); } catch (e) {} };
+const lvl = id => plan[id] || (id === 156 || id === starter ? 1 : 0);
+function cost(n, k) {           // cost of level k (1-based)
+  if (n.id === 156) return 0;
+  if (WEAPONS.includes(n.id)) return n.id === starter ? 0 : 500;
+  if (n.u) return n.u;
+  return n.c * Math.pow(n.m, k - 1);
+}
+const value = (n, k) => n.v0 + n.dv * (k - 1);
+const showVal = (n, k) => n.pct ? `+${+(value(n, k) * 100).toFixed(1)}%` : `+${fmt(value(n, k))}`;
+const hasEffect = n => n.L > 1 || n.dv;
+function spent() { let s = 0; for (const n of nodes) for (let k = 1; k <= lvl(n.id); k++) s += cost(n, k); return Math.round(s); }
+function state(n) {
+  if (!n.imp) return "soon";
+  if (lvl(n.id) > 0) return "owned";
+  const ps = parents[n.id] || [];
+  const ok = ps.every(p => lvl(p) > 0) && spent() >= (n.gate || 0);
+  return ok ? "avail" : "locked";
+}
+function canBuy(n) { const st = state(n); return n.imp && lvl(n.id) < (n.u || WEAPONS.includes(n.id) || n.id === 156 ? 1 : n.L) && (st === "avail" || st === "owned"); }
+function canSell(n) { if (n.id === 156 || n.id === starter) return false; if (!plan[n.id]) return false; if (plan[n.id] > 1) return true; return !(children[n.id] || []).some(c => lvl(c) > 0); }
+
+const sbox = $("#starter");
+sbox.innerHTML = WEAPONS.slice(1).map(id => `<option value="${id}">${byId[id].n}</option>`).join("");
+sbox.value = starter;
+sbox.addEventListener("change", () => { delete plan[starter]; starter = +sbox.value; delete plan[starter]; save(); drawTree(); });
+$("#resetPlan").addEventListener("click", () => { plan = {}; save(); drawTree(); });
+
+const bbar = $("#branchBar");
+for (const [id, t] of BR) {
+  const xs = nodes.filter(n => n.b === id).map(X);
+  const b = el("button", { type: "button" }, t);
+  b.addEventListener("click", () => { $("#treeFrame").scrollTo({ left: Math.max(0, Math.min(...xs) - 120), behavior: "smooth" }); });
+  bbar.append(b);
+  const lab = el("div", { class: "blabel" }, t.toUpperCase()); lab.style.left = (Math.min(...xs) + Math.max(...xs)) / 2 + "px"; canvas.append(lab);
+}
+const nodeEls = {};
+for (const n of nodes) {
+  const b = el("button", { type: "button", class: "node" });
+  b.style.left = X(n) + "px"; b.style.top = Y(n) + 40 + "px";
+  b.addEventListener("click", () => { sel = n.id; drawTree(); });
+  canvas.append(b); nodeEls[n.id] = b;
+}
+function drawTree() {
+  const sp = spent();
+  $("#spentV").textContent = sp.toLocaleString("en-US");
+  svg.innerHTML = DATA.edges.map(([a, b]) => {
+    const A = byId[a], B = byId[b]; if (!A || !B) return "";
+    const x1 = X(A), y1 = Y(A) + 40 + 30, x2 = X(B), y2 = Y(B) + 40 - 30, my = (y1 + y2) / 2;
+    return `<path class="${lvl(a) > 0 && lvl(b) > 0 ? "lit" : ""}" d="M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}"/>`;
+  }).join("");
+  for (const n of nodes) {
+    const b = nodeEls[n.id], st = state(n), L = lvl(n.id), max = n.u || WEAPONS.includes(n.id) || n.id === 156 ? 1 : n.L;
+    b.className = `node ${st}${sel === n.id ? " sel" : ""}`;
+    const c1 = cost(n, Math.min(L + 1, max));
+    const price = st === "soon" ? "coming soon" : (L >= max ? "max" : (c1 ? `${fmt(Math.round(c1))} pts` : "free"));
+    b.innerHTML = `<b>${esc(n.n)}</b><span>${price}${n.gate && !L ? ` &middot; gate ${fmt(n.gate)}` : ""}</span>${max > 1 ? `<span class="pips">${Array.from({ length: max }, (_, i) => `<i class="${i < L ? "f" : ""}"></i>`).join("")}</span>` : ""}`;
+    b.setAttribute("aria-label", `${n.n}, ${st === "soon" ? "coming soon" : st}, level ${L} of ${max}`);
+  }
+  drawDetail();
+}
+function drawDetail() {
+  const n = byId[sel], st = state(n), L = lvl(n.id), max = n.u || WEAPONS.includes(n.id) || n.id === 156 ? 1 : n.L;
+  const branch = BR.find(b => b[0] === n.b)[1];
+  const label = { owned: ["owned", "c-accent"], avail: ["can buy", "c-good"], locked: ["locked", "c-muted"], soon: ["coming soon", "c-soon"] }[st];
+  const ps = (parents[n.id] || []).map(p => byId[p].n);
+  let rows = "";
+  if (hasEffect(n)) {
+    let tot = 0;
+    for (let k = 1; k <= max; k++) { tot += cost(n, k); rows += `<tr${k <= L ? ' style="color:var(--accent)"' : ""}><td class="num">${k}</td><td class="num">${fmt(Math.round(cost(n, k)))}</td><td class="num">${fmt(Math.round(tot))}</td><td class="num">${showVal(n, k)}</td></tr>`; }
+    rows = `<div class="tbl"><table><thead><tr><th class="num">Level</th><th class="num">Cost</th><th class="num">Total</th><th class="num">Effect</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  } else {
+    const c = cost(n, 1);
+    rows = `<div class="spec"><div class="kv"><span class="k">Cost</span><span class="v">${c ? fmt(Math.round(c)) : (n.id === 156 ? "always owned" : "free (starter)")}</span></div>${n.u ? `<div class="kv"><span class="k">Type</span><span class="v">unlock</span></div>` : ""}</div>`;
+  }
+  $("#detail").innerHTML = `<div class="head"><div><span class="eyebrow">${esc(branch)}</span><h3 style="margin-top:4px">${esc(n.n)}</h3></div><span class="chip ${label[1]}">${label[0]}</span></div>
+  <p>${esc(n.d)}</p>
+  ${rows}
+  <p class="note">${ps.length ? `Needs: ${ps.map(esc).join(", ")}.` : "No card above it."}${n.gate ? ` Opens after ${fmt(n.gate)} points spent in the tree.` : ""}${WEAPONS.includes(n.id) && n.id !== 156 ? " Your starter weapon is free; the others cost 500." : ""}</p>
+  ${n.imp ? `<div class="actions"><button class="btn primary" type="button" id="buy" ${canBuy(n) ? "" : "disabled"}>Buy level</button><button class="btn" type="button" id="sell" ${canSell(n) ? "" : "disabled"}>Sell level</button></div>` : `<p class="note c-soon">Not in the game yet: shown as COMING SOON and can't be bought.</p>`}`;
+  const bb = $("#buy"), sb = $("#sell");
+  if (bb) bb.addEventListener("click", () => { if (!canBuy(n)) return; plan[n.id] = lvl(n.id) + 1; save(); drawTree(); });
+  if (sb) sb.addEventListener("click", () => { if (!canSell(n)) return; plan[n.id]--; if (!plan[n.id]) delete plan[n.id]; save(); drawTree(); });
+}
+drawTree();
+route();
+</script>
+
+<script type="module">
+import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+const MODELS = [
+  { f: "station_outpost", n: "Outpost", k: "Station", d: "A light station meant for the quiet polar orbits. Four turret mounts: two on top, two on the sides.", s: [["Hull", "400"], ["Mounts", "4"], ["Cost", "150 + turrets"], ["Limit", "2 (Station Limit +1 per level)"]] },
+  { f: "station_bulwark", n: "Bulwark", k: "Station", d: "A heavy station. Its shield bubble takes hits first; two point-defense blisters on the sides shoot down incoming fire and cost nothing extra.", s: [["Hull", "1,200"], ["Shield", "600"], ["Mounts", "2 + 2 built-in PD"], ["Cost", "400 + turrets"], ["Shield radius", "28 units"]] },
+  { f: "turret_laser", n: "Laser Turret", k: "Turret", d: "Weak damage, instant hit. The cheapest way to thin out suiciders.", s: [["Damage", "15"], ["Price", "100 (x1.5)"], ["Per run", "4"]] },
+  { f: "turret_ballistic", n: "Ballistic Turret", k: "Turret", d: "A cannon that fires heavy projectiles. Opens from wave 2.", s: [["Damage", "50"], ["Price", "150 (x1.6)"], ["Per run", "3"]] },
+  { f: "turret_missile", n: "Homing Missile Turret", k: "Turret", d: "Fires tracking missiles at enemies in range.", s: [["Damage", "30"], ["Range", "70"], ["Price", "120"], ["Per run", "2"]] },
+  { f: "turret_point_defense", n: "Point Defense Turret", k: "Turret", d: "Rapid fire that shoots down enemy projectiles before they reach the planet.", s: [["Damage", "5"], ["Range", "35"], ["Price", "80"], ["Per run", "2"]] },
+  { f: "space_mine", n: "Space Mine", k: "Weapon", d: "A faceted sensor drone: thrusters on all six sides let it chase in any direction, and radar dishes in its upper facets spot ships. Thrown with key 5 (or from the VR wrist menu). It waits, chases an enemy that comes within its aggro radius, and explodes beside it. It's never faster than the fastest enemy type. Upgrades add a recall or a Focused Blast when its target escapes.", s: [["Blast damage", "150"], ["Blast radius", "45"], ["Trigger", "28"], ["Aggro radius", "90"], ["Speed", "8 (cap 16)"], ["Out at once", "3"]] },
+  { f: "colony_ship_stern", n: "Colony ship: stern", k: "Polar", d: "The rear half of the colonists' ship, planted on the north pole with its engines up. Its guns shoot any ship that strays into the polar cap. It can't be lost; it powers down if every continent dies.", s: [["Pole", "North"], ["Guns", "4"], ["Role", "Polar no-fly zone"]] },
+  { f: "colony_ship_bow", n: "Colony ship: bow", k: "Polar", d: "The front half, on the south pole, nose down. Together the halves explain why nothing attacks from straight above or below.", s: [["Pole", "South"], ["Guns", "4"], ["Role", "Polar no-fly zone"]] },
+];
+const ATTACH = /^(socket_|mount_|pd_|gun_)/;
+const picker = document.querySelector("#modelPicker"), info = document.querySelector("#modelInfo");
+const cvs = document.querySelector("#gl"), fb = document.querySelector("#glFallback");
+let renderer, scene, camera, controls, current, started = false, cache = {};
+const loader = new GLTFLoader();
+
+MODELS.forEach((m, i) => {
+  const b = document.createElement("button"); b.type = "button";
+  b.innerHTML = `${m.n}<small>${m.k}</small>`;
+  b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+  b.addEventListener("click", () => { picker.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", "true"); show(m); });
+  picker.append(b);
+});
+function css(v) { return getComputedStyle(document.documentElement).getPropertyValue(v).trim(); }
+function setInfo(m, sockets) {
+  info.innerHTML = `<span class="eyebrow">${m.k}</span><h3>${m.n}</h3><p style="color:var(--muted)">${m.d}</p>
+  <div class="spec">${m.s.map(([k, v]) => `<div class="kv"><span class="k">${k}</span><span class="v">${v}</span></div>`).join("")}</div>
+  ${sockets.length ? `<p class="note"><span class="legend-dot"></span>Attach points: <span class="mono">${sockets.join(", ")}</span></p>` : ""}`;
+}
+function init() {
+  try {
+    renderer = new THREE.WebGLRenderer({ canvas: cvs, antialias: true, alpha: true });
+  } catch (e) { fb.hidden = false; fb.textContent = "3D preview needs WebGL, which this browser doesn't offer. The screenshots below show the stations in the game."; return false; }
+  renderer.setPixelRatio(Math.min(2, devicePixelRatio));
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  scene = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(35, 1, 0.01, 1000);
+  scene.add(new THREE.HemisphereLight(0xdde8ff, 0x22303f, 2.2));
+  const sun = new THREE.DirectionalLight(0xffffff, 2.4); sun.position.set(3, 5, 4); scene.add(sun);
+  const rim = new THREE.DirectionalLight(0x66ffee, 0.8); rim.position.set(-4, 1, -3); scene.add(rim);
+  controls = new OrbitControls(camera, cvs); controls.enableDamping = true; controls.autoRotate = !matchMedia("(prefers-reduced-motion: reduce)").matches; controls.autoRotateSpeed = 1.2;
+  const resize = () => { const w = cvs.clientWidth, h = cvs.clientHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); };
+  new ResizeObserver(resize).observe(cvs); resize();
+  renderer.setAnimationLoop(() => { controls.update(); renderer.render(scene, camera); });
+  return true;
+}
+async function show(m) {
+  if (!renderer) return;
+  if (current) scene.remove(current);
+  fb.hidden = true;
+  let root;
+  try {
+    if (!cache[m.f]) {
+      const txt = await (await fetch(`models/${m.f}.b64.txt`)).text();
+      const bin = Uint8Array.from(atob(txt.trim()), c => c.charCodeAt(0));
+      cache[m.f] = await new Promise((ok, bad) => loader.parse(bin.buffer, "", ok, bad));
+    }
+    root = cache[m.f].scene;
+  } catch (e) { fb.hidden = false; fb.textContent = `Couldn't load ${m.n}.`; setInfo(m, []); return; }
+  const sockets = [];
+  const marker = new THREE.MeshBasicMaterial({ color: new THREE.Color(css("--amber") || "#f2a93b") });
+  root.traverse(o => {
+    if (ATTACH.test(o.name) && !o.userData.marked) {
+      o.userData.marked = true; sockets.push(o.name);
+      const s = new THREE.Mesh(new THREE.SphereGeometry(1, 12, 8), marker); s.name = "marker"; o.add(s);
+    }
+  });
+  if (!sockets.length) root.traverse(o => { if (ATTACH.test(o.name)) sockets.push(o.name); });
+  const box = new THREE.Box3().setFromObject(root), size = box.getSize(new THREE.Vector3()), center = box.getCenter(new THREE.Vector3());
+  const r = Math.max(size.x, size.y, size.z);
+  root.traverse(o => { if (o.name === "marker") o.scale.setScalar(r * 0.018 / Math.max(1e-6, o.parent.getWorldScale(new THREE.Vector3()).x)); });
+  current = root; scene.add(root);
+  controls.target.copy(center);
+  camera.position.copy(center).add(new THREE.Vector3(r * 1.3, r * 0.8, r * 1.5));
+  camera.near = r / 100; camera.far = r * 50; camera.updateProjectionMatrix();
+  setInfo(m, sockets.sort());
+}
+addEventListener("show-structures", () => {
+  if (started) return; started = true;
+  setInfo(MODELS[0], []);
+  if (init()) show(MODELS[0]);
+});
+if (location.hash === "#structures") dispatchEvent(new Event("show-structures"));
+</script>
