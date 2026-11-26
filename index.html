@@ -562,7 +562,7 @@ $("#passiveTable").innerHTML = `<thead><tr><th>Source</th><th>Amount</th><th>Sca
 <tr><td><b>Vault Reserve</b> pick</td><td>${esc(pickByName("Vault Reserve").d)}</td><td>Nothing</td></tr></tbody>`;
 
 const kp = DF.map(d => `${d.displayName} ${d.killPoints}x`).join(", ");
-$("#killText").innerHTML = `Each ship you destroy pays its point value (on its card on the <a href="#enemies">Enemies</a> page) times the difficulty's kill factor (${kp}), times ${RW.killToPersistentMultiplier} (the share of a kill that becomes Upgrade Points), times the ${esc(killCard.n)} card (+${pct(killCard.v0)} a level, up to +${pct(cardTop(killCard))}), times War Profiteer if you took it (${esc(profiteer.d.replace(/\.$/, ""))}). The HUD shows the total as Kill.`;
+$("#killText").innerHTML = `Each ship you destroy pays its point value (on its card on the <a href="#enemies">Enemies</a> page) times the difficulty's kill factor (${kp}). Only ${Math.round(RW.killToPersistentMultiplier*100)}% of that is paid out as Upgrade Points: a ship worth ${Math.round(1/RW.killToPersistentMultiplier)} points pays 1 Upgrade Point when the kill factor is 1. Two things raise the payout: the ${esc(killCard.n)} card (+${pct(killCard.v0)} a level, up to +${pct(cardTop(killCard))}) and War Profiteer if you took it (${esc(profiteer.d.replace(/\.$/, ""))}). The HUD shows the total as Kill.`;
 
 const easy = DF[0], normal = DF[1], hard = DF[2];
 const winBonus = (d, a) => a * RW.bonusPerScriptedWavePercent * d.waveBonusFactor;
