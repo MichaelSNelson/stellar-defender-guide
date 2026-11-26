@@ -160,7 +160,7 @@ figcaption b { color: var(--ink) }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important } }
 </style>
 
-<header class="top">
+<header class="top" id="top">
   <div class="wrap">
     <div class="brand"><b><a href="https://claude.ai/artifact/JTq1aJnKYX4MuPuYNmVDoy">S</a>TELLAR DEFENDER</b><span>Field guide, build of 2026-11-26</span></div>
     <nav class="tabs" aria-label="Sections">
@@ -215,6 +215,7 @@ figcaption b { color: var(--ink) }
 
     <div class="block">
       <h3 id="shop" style="margin-bottom:12px">Shop between waves (Passive)</h3>
+      <p class="note" style="margin-bottom:10px">Tabs: <a href="#shop-defense">DEFENSE</a> &middot; <a href="#shop-restore">RESTORE</a> &middot; <a href="#shop-boost">BOOST</a> &middot; <a href="#shop-stations">STATIONS</a> (wrist menu).</p>
       <div class="tbl"><table id="shopTable"></table></div>
       <p class="note" style="margin-top:8px">Prices rise by the scaling factor with each purchase in a run. Left Y opens and closes the shop in VR. A new profile's shop starts with six items: Laser Turret, Ballistic Turret, Planetary Shield, Global Repair, Defense Repair and Overcharge. The other items wait for cards in UPGRADES! (Turrets and Stats branches), and the shop says "More in UPGRADES!" while any are hidden. Turret limits start at 2 Laser and 1 Ballistic; Turret Crews and the Extra and Second Turret cards raise them.</p>
     </div>
@@ -232,7 +233,7 @@ figcaption b { color: var(--ink) }
         <p class="note" style="margin-top:8px">Enemy speed does not change with difficulty. Health, damage, ship count and the spawn window (<a href="#play">How you play</a>) do.</p>
       </div>
       <div>
-        <h3 style="margin-bottom:12px">Heat modifiers</h3>
+        <h3 style="margin-bottom:12px" id="heat">Heat modifiers</h3>
         <div class="tbl"><table id="heatTable"></table></div>
         <p class="note" style="margin-top:8px" id="heatNote"></p>
       </div>
@@ -242,6 +243,7 @@ figcaption b { color: var(--ink) }
       <h3 id="challenges">Challenges</h3>
       <div class="tbl"><table id="chalTable"></table></div>
     </div>
+    <p class="note" style="margin-top:24px"><a href="#top">Back to top</a></p>
   </div>
 </section>
 
@@ -252,6 +254,7 @@ figcaption b { color: var(--ink) }
       <span class="eyebrow">What a run pays</span>
       <h2>Rewards</h2>
       <p>Every source of Passive, Kill points and Upgrade Points, and how the payout at the end of a run is worked out. The numbers come from the game's settings and are first values to tune.</p>
+      <p class="note" style="margin-top:10px">On this page: <a href="#passive">Passive during a run</a> &middot; <a href="#kill-points">Kill points</a> &middot; <a href="#payout">Upgrade Points at the end of a run</a> &middot; <a href="#example">worked example</a>.</p>
     </div>
 
     <div class="block">
@@ -259,30 +262,31 @@ figcaption b { color: var(--ink) }
     </div>
 
     <div class="block">
-      <h3>Passive during a run</h3>
+      <h3 id="passive">Passive during a run</h3>
       <p class="note" style="margin-bottom:10px">Spent in the shop between waves and on stations. Whatever is left when the run ends is lost.</p>
       <div class="tbl"><table id="passiveTable"></table></div>
     </div>
 
     <div class="block">
-      <h3>Kill points</h3>
+      <h3 id="kill-points">Kill points</h3>
       <p id="killText"></p>
       <p class="note" style="margin-top:10px">Only ships your side destroys pay: your punches, weapons, mines and abilities, your turrets and stations. Nothing is paid for a Suicider that reaches the planet, rams a station or dives into your Shield, or for a ship the colony ship's guns shoot down over a pole. Only the first few ships a Spawner puts in play pay (as many as it can release in all), and the same limit holds for the Iron Leviathan's hangar, so neither can be farmed. Heat and a wave's own factors don't change a ship's points.</p>
     </div>
 
     <div class="block grid g2">
       <div>
-        <h3>Upgrade Points at the end of a run</h3>
+        <h3 id="payout">Upgrade Points at the end of a run</h3>
         <p class="mono" style="margin:10px 0">Upgrade Points = Kill points x win bonus x heat x challenge</p>
         <ul style="margin:0 0 0 18px; display:grid; gap:6px" id="payoutRules"></ul>
       </div>
-      <div class="panel">
+      <div class="panel" id="example">
         <span class="eyebrow">Worked example</span>
         <p style="margin:8px 0" id="exampleIntro"></p>
         <div class="tbl"><table id="exampleTable"></table></div>
         <p class="note" style="margin-top:10px" id="exampleLost"></p>
       </div>
     </div>
+    <p class="note" style="margin-top:24px"><a href="#top">Back to top</a></p>
   </div>
 </section>
 
@@ -294,11 +298,12 @@ figcaption b { color: var(--ink) }
       <h2>How you play</h2>
       <p>You are a giant standing in the planet. The planet is a see-through ball 70 cm across, centered at your chest: with the default body it runs from the top of your head down to about your waist. Your eyes are inside it, near its top, and you look out through its surface at the ships coming in around you. Turn to face them, punch the close ones, and fire your other weapons with hand motions.</p>
       <p class="note">Everything on this page was tested with a simulated headset in the Editor, not on a Quest. Sizes in meters are for the default body.</p>
+      <p class="note" style="margin-top:10px">On this page: <a href="#stand">where you stand</a> &middot; <a href="#reach">reach and Untethered</a> &middot; <a href="#fit-body">fit the planet to your body</a> &middot; <a href="#starting-weapons">starting weapons</a> &middot; <a href="#weapons">weapons</a> &middot; <a href="#abilities">abilities</a> &middot; <a href="#lanes">where ships come from</a>.</p>
     </div>
 
     <div class="block grid g2">
       <div class="panel">
-        <h3>Where you stand</h3>
+        <h3 id="stand">Where you stand</h3>
         <div class="spec" id="bodySpec"></div>
         <p class="note" style="margin-top:12px" id="bodyNote"></p>
       </div>
@@ -307,10 +312,10 @@ figcaption b { color: var(--ink) }
 
     <div class="block grid g2">
       <div>
-        <h3>Reach and Untethered</h3>
+        <h3 id="reach">Reach and Untethered</h3>
         <p id="reachText"></p>
         <p style="margin-top:10px" id="untetherText"></p>
-        <h3 style="margin-top:22px">Fit the planet to your body</h3>
+        <h3 style="margin-top:22px" id="fit-body">Fit the planet to your body</h3>
         <p>SETTINGS, on the title screen's bottom strip, opens in the right half with the tabs BODY, PLAY, HUD, GRAPHICS and SEE-THROUGH. On BODY, <b>MEASURE MY BODY</b>: stand straight, hold both arms straight out to the sides and pull both triggers; your eye height and reach are saved to your profile. A second step has you punch straight ahead to measure your punch reach. <b>PLANET HEIGHT</b> moves the planet up or down (DEFAULT puts its center at your chest), <b>FIST POSITION</b> moves where your fists sit on the controllers, and <b>CONTROLLER ANGLE</b> tilts the aim of the hand weapons by 5 degrees a press, up to 30 degrees each way. PLAY holds what happens after a run and the planet's spin. On SEE-THROUGH, a slider each for the planet and the colony ship (5% to 100% solid, 35% by default) with a live view from inside. GRAPHICS holds the background (stars, black or your room), the resolution and switches for effects, the colony ship and the shield glow. ABOUT on the title screen shows the credits.</p>
       </div>
       <div class="grid" style="gap:16px">
@@ -321,26 +326,26 @@ figcaption b { color: var(--ink) }
 
     <div class="block grid g2">
       <figure><img src="img/body_settings.jpg" alt="An earlier build's SETTINGS body page with YOUR BODY, PLANET SIZE and PLANET HEIGHT controls" loading="lazy"><figcaption><b>SETTINGS, body page.</b> Picture from an earlier build, when this tab was called GENERAL and had a PLANET SIZE control; the planet is now one size for everyone. Changes apply from the next run.</figcaption></figure>
-      <figure><img src="img/see_through.jpg" alt="SETTINGS, SEE-THROUGH page with PLANET and COLONY SHIP sliders and a preview of the view from inside" loading="lazy"><figcaption><b>SETTINGS, SEE-THROUGH.</b> Lower is fainter, so you see ships through the planet; higher shows the continents and their damage better.</figcaption></figure>
+      <figure id="see-through"><img src="img/see_through.jpg" alt="SETTINGS, SEE-THROUGH page with PLANET and COLONY SHIP sliders and a preview of the view from inside" loading="lazy"><figcaption><b>SETTINGS, SEE-THROUGH.</b> Lower is fainter, so you see ships through the planet; higher shows the continents and their damage better.</figcaption></figure>
     </div>
 
     <div class="block grid g2">
       <div>
-        <h3>Your starting weapons</h3>
+        <h3 id="starting-weapons">Your starting weapons</h3>
         <p>Every profile has the <b>Stellar Punch</b>. A new profile also picks one ranged weapon, right after its name: the Laser Blaster, the Homing Missile or the Mass Driver. That weapon is free and the choice is not offered again; the other two cost 500 Upgrade Points each in UPGRADES!. The Mass Driver is the hardest to aim and hits hardest. Every weapon card has a PRACTICE button, and TRAINING under HOW TO PLAY practices all five motions with ghost hands and targets.</p>
       </div>
       <figure><img src="img/starter_weapon.jpg" alt="Choose Your First Weapon screen with Laser Blaster, Homing Missile and Mass Driver cards" loading="lazy"><figcaption><b>Choose your first weapon.</b> Shown once, when a profile is made.</figcaption></figure>
     </div>
 
     <div class="block">
-      <h3>Weapons</h3>
+      <h3 id="weapons">Weapons</h3>
       <p class="note" style="margin-bottom:10px">One settings file holds every weapon's numbers, for VR and the desktop test harness alike. Damage is before upgrades and critical hits. Speeds are in game units per second; hand distances and speeds are real meters. Numbers are first values to tune.</p>
       <div class="tbl"><table id="weaponTable"></table></div>
       <p class="note" style="margin-top:8px">Weapon modes (Railgun, Wide Beam, Seeker Swarm and the rest) are cards in the upgrade tree: own any of them, switch one on in UPGRADES!. SETTINGS, BODY, CONTROLLER ANGLE tilts every hand weapon's aim.</p>
     </div>
 
     <div class="block">
-      <h3 style="margin-bottom:12px">Abilities</h3>
+      <h3 style="margin-bottom:12px" id="abilities">Abilities</h3>
       <div class="tbl"><table id="abilityTable"></table></div>
       <p class="note" style="margin-top:8px">The Shield's cards (SHIELD branch) make it stronger, wider (spread your hands while you drag it, one lane more per 15 cm up to 6 wide; one strength covers the whole width), mending (it regains strength after 3 s without a hit), reactive (it hurts ships in its lane when it breaks) or two at once. The other four are bought in the upgrade tree (Utilities); level 2 shortens the cooldown to 75%. Buttons stand in until their hand motions are built.</p>
     </div>
@@ -351,7 +356,7 @@ figcaption b { color: var(--ink) }
     </div>
 
     <div class="block">
-      <h3>Where ships come from</h3>
+      <h3 id="lanes">Where ships come from</h3>
       <p class="note" style="margin-bottom:10px" id="laneIntro"></p>
       <div class="tbl"><table id="laneTable"></table></div>
       <p class="note" style="margin-top:8px" id="laneNote"></p>
@@ -363,6 +368,7 @@ figcaption b { color: var(--ink) }
         <li>Hand motions modeled on tai chi for the four abilities (buttons stand in).</li>
       </ul>
     </div>
+    <p class="note" style="margin-top:24px"><a href="#top">Back to top</a></p>
   </div>
 </section>
 
@@ -373,6 +379,7 @@ figcaption b { color: var(--ink) }
       <span class="eyebrow">Models from the game</span>
       <h2>Structures</h2>
       <p>The turrets, stations, mine, the colony ship's two halves and the Blocker, as low-poly models from the make-model library. Drag to turn a model, scroll or pinch to zoom. <span class="legend-dot"></span>Amber dots mark attach points: where turrets mount on a station, the Bulwark's built-in guns, and the colony ship's gun barrels.</p>
+      <p class="note" style="margin-top:10px">On this page: <a href="#turret-sites">turret sites</a> &middot; <a href="#stations">stations</a>.</p>
     </div>
     <div class="viewer-shell">
       <div class="picker" id="modelPicker" role="group" aria-label="Choose a structure"></div>
@@ -392,8 +399,9 @@ figcaption b { color: var(--ink) }
       <figure><img src="img/vr_station_carry.jpg" alt="VR view carrying a station toward an orbit ring on the hand-held globe" loading="lazy"><figcaption><b>VR placement.</b> Grab a station from the wrist menu and let go where you want it. Picture from 2026-11-14, when a hand-held globe stood in for the planet; now how far out your hand is picks the ring and its direction around you picks the spot.</figcaption></figure>
       <figure><img src="img/vr_mine.jpg" alt="VR view carrying a mine, with the range ring and a label reading 150 units out" loading="lazy"><figcaption><b>VR mine.</b> Reach out to set the distance (1.25 to 3 planet radii out) and let go. Picture from 2026-11-14, before you stood in the planet.</figcaption></figure>
     </div>
-    <p class="note" style="margin-top:12px"><b>Turrets</b> are built only on the build slots of the planet's turret sites. Planet 1 has one thin ring close around the planet, 1.3 planet radii out, with 10 slots spread over the 240 degrees ahead, where its waves arrive; it stays fixed in the sky while the continents turn below it, and each turret guards a direction. The moons are scenery. Buying a turret starts the slot pick: the shop steps aside, the thumbstick steps along the free slots (it starts on the one nearest where you look), the trigger builds and B cancels with the price refunded. Enemy shots and ramming ships can destroy a turret (Laser 160 health, Ballistic 220, Missile 180, Point Defense 120); its slot is then free again, and Defense Repair mends them.</p>
-    <p class="note" style="margin-top:8px">Stations go on one of three rings, 1.35, 1.65 and 2 planet radii out. A turret on a station mount aims down to 30 degrees below level and does a quarter of its planet-site damage (a first value). The Space Stations card costs 2,625 Upgrade Points, Station Limit 1,400 and then 2,100.</p>
+    <p class="note" style="margin-top:12px" id="turret-sites"><b>Turrets</b> are built only on the build slots of the planet's turret sites. Planet 1 has one thin ring close around the planet, 1.3 planet radii out, with 10 slots spread over the 240 degrees ahead, where its waves arrive; it stays fixed in the sky while the continents turn below it, and each turret guards a direction. The moons are scenery. Buying a turret starts the slot pick: the shop steps aside, the thumbstick steps along the free slots (it starts on the one nearest where you look), the trigger builds and B cancels with the price refunded. Enemy shots and ramming ships can destroy a turret (Laser 160 health, Ballistic 220, Missile 180, Point Defense 120); its slot is then free again, and Defense Repair mends them.</p>
+    <p class="note" style="margin-top:8px" id="stations">Stations go on one of three rings, 1.35, 1.65 and 2 planet radii out. A turret on a station mount aims down to 30 degrees below level and does a quarter of its planet-site damage (a first value). The Space Stations card costs 2,625 Upgrade Points, Station Limit 1,400 and then 2,100.</p>
+    <p class="note" style="margin-top:24px"><a href="#top">Back to top</a></p>
   </div>
 </section>
 
@@ -436,10 +444,11 @@ figcaption b { color: var(--ink) }
       <h2>Enemy types</h2>
       <p>Base stats before difficulty, wave and elite factors. Speeds are in game units per second (the planet's radius is 75). Points are what a kill pays before the difficulty's kill factor. On planet 1 each type starts with its own health for the difficulty (the line under the stats: Easy, Normal, Hard), which already includes the difficulty's factor; Armored heat and a wave's own factor still apply on top. The chips show which of planet 1's waves send each type. The Healer, Synapse Drone, Nexus Pylon, Wraith and Rift Weaver are built but no planet 1 wave sends them.</p>
       <p class="note">SPECIES (the third row under THIS RUN on the title screen) gives the enemy types another look and sound from a species pack. Three packs come with the game besides the default look; one of them is harder and adds a type.</p>
+      <p class="note" style="margin-top:10px">On this page: <a href="#enemies-in-waves">types in planet 1's waves</a> &middot; <a href="#enemies-unsent">built, not sent by planet 1</a> &middot; <a href="#loadouts">shooter loadouts</a> &middot; <a href="#variations">variations</a> &middot; <a href="#mine-awareness">mine awareness</a>.</p>
     </div>
-    <h3 style="margin-bottom:12px">In planet 1's waves</h3>
+    <h3 style="margin-bottom:12px" id="enemies-in-waves">In planet 1's waves</h3>
     <div class="grid g3" id="enemyGrid"></div>
-    <h3 style="margin:28px 0 12px">Built, not sent by planet 1</h3>
+    <h3 style="margin:28px 0 12px" id="enemies-unsent">Built, not sent by planet 1</h3>
     <div class="grid g3" id="enemyGrid2"></div>
 
     <div class="block" style="margin-top:34px">
@@ -448,18 +457,19 @@ figcaption b { color: var(--ink) }
 
     <div class="block grid g2" style="margin-top:34px">
       <div>
-        <h3 style="margin-bottom:12px">Shooter loadouts</h3>
+        <h3 style="margin-bottom:12px" id="loadouts">Shooter loadouts</h3>
         <div class="tbl"><table id="loadoutTable"></table></div>
         <p class="note" style="margin-top:8px">Shots every 1 s (0.5 s for each Advanced Shooter weapon) times the interval factor: below 1 fires faster. Advanced Shooters fire both weapons, each on its own timer. Under an EMP jam, guns, beams and bombs keep firing; missiles do not launch.</p>
       </div>
       <div>
-        <h3 style="margin-bottom:12px">Variations</h3>
+        <h3 style="margin-bottom:12px" id="variations">Variations</h3>
         <div class="tbl"><table id="varTable"></table></div>
-        <h3 style="margin:22px 0 12px">Mine awareness</h3>
+        <h3 style="margin:22px 0 12px" id="mine-awareness">Mine awareness</h3>
         <div class="tbl"><table id="awareTable"></table></div>
         <p class="note" style="margin-top:8px">Level 0 ignores mines. Level 1 steers around a mine's reach. Level 2 also flees a chasing mine it can outrun and keeps clear of a charging Focused Blast. Diving and jammed ships never react.</p>
       </div>
     </div>
+    <p class="note" style="margin-top:24px"><a href="#top">Back to top</a></p>
   </div>
 </section>
 
@@ -470,14 +480,15 @@ figcaption b { color: var(--ink) }
       <span class="eyebrow">Screens from the automated tests</span>
       <h2>Interface</h2>
       <p>Screenshots from the playtest runs of 2026-11-17 to 19, seen from the eyes inside the planet. They come from a simulated headset in the Editor, not a Quest, rendered with a wide field of view, so their edges look stretched. The menus have been redesigned since the pictures were taken; the text below describes the current layout.</p>
+      <p class="note" style="margin-top:10px">On this page: <a href="#menus">menus</a> &middot; <a href="#hud">the HUD in a run</a> &middot; <a href="#screens">screenshots</a>.</p>
     </div>
 
     <div class="block">
-      <h3>Menus</h3>
+      <h3 id="menus">Menus</h3>
       <ul style="margin:0 0 0 18px; display:grid; gap:4px">
         <li><b>Title screen:</b> a panel of icon tiles. On the left, PLAYING AS (your profile), PLAY, and three THIS RUN rows: the game mode and planet, RUN SETUP (a difficulty picker and the heat modifiers) and ENEMY SPECIES. On the right, tiles for UPGRADES, CHALLENGES and HOW TO PLAY. Each opens its screen in the right half, with BACK at its top left. SETTINGS, ABOUT and QUIT sit along the bottom.</li>
         <li><b>SETTINGS:</b> tabs BODY, PLAY, HUD, GRAPHICS and SEE-THROUGH. HUD and SEE-THROUGH have live previews and open over the whole panel.</li>
-        <li><b>HOW TO PLAY</b> has a TRAINING tab that practices the five motions; PRACTICE is also on each card when you choose your first weapon.</li>
+        <li id="training"><b>HOW TO PLAY</b> has a TRAINING tab that practices the five motions; PRACTICE is also on each card when you choose your first weapon.</li>
         <li><b>Upgrades:</b> the tree opens over the whole panel. Its branches are icon chips in groups: weapons (punch, shield, laser, missile, driver), defense (mine, stations, turrets), core (stats, utility) and synergy. BUILDS saves three builds per profile; REFUND ALL gives every point back.</li>
         <li><b>Pause</b> (left menu button): RESUME, and LEAVE, which opens RESTART, MAIN MENU and QUIT GAME. ADJUST INTERFACE is there in the headset.</li>
       </ul>
@@ -485,7 +496,7 @@ figcaption b { color: var(--ink) }
 
     <div class="block grid g2">
       <div>
-        <h3>The HUD in a run</h3>
+        <h3 id="hud">The HUD in a run</h3>
         <p>The HUD is your vision: it floats 1.5 m away but is drawn over everything in the world, the planet's wall, the colony ship and any ship passing behind a panel. It follows your body loosely: the panels stay put until your head turns 20 degrees away, then swing after it. Every panel sits between 10 degrees above eye level and the planet's equator line, so the view ahead and the continents below stay clear.</p>
         <ul style="margin:10px 0 0 18px; display:grid; gap:4px">
           <li><b>Status panel</b> (left): the wave and its state, the planet and each continent with a health bar, Passive and Kill points, and on Easy and Normal the enemies left.</li>
@@ -497,7 +508,9 @@ figcaption b { color: var(--ink) }
       </div>
       <figure><img src="img/vr_hud.jpg" alt="In-run view from inside the planet on Easy: the status panel on the left, ability and weapon tiles on the right, the radar below the middle, two enemy ships and continents below" loading="lazy"><figcaption><b>A run on Easy.</b> Status panel left, tiles right, radar below ahead.</figcaption></figure>
     </div>
+    <h3 id="screens" style="margin-bottom:12px">Screenshots</h3>
     <div class="grid g2" id="gallery"></div>
+    <p class="note" style="margin-top:24px"><a href="#top">Back to top</a></p>
   </div>
 </section>
 </main>
@@ -513,8 +526,12 @@ const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "
 /* ---------- routing ---------- */
 const VIEWS = ["loop", "rewards", "play", "structures", "tree", "enemies", "interface"];
 function route() {
-  const v = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "loop";
-  const target = VIEWS.includes(location.hash.slice(1)) ? null : document.getElementById(location.hash.slice(1));
+  const h = location.hash.slice(1);
+  const target = VIEWS.includes(h) ? null : document.getElementById(h);
+  const host = target && target.closest("main section[data-view]");
+  const shown = document.querySelector("main section.on");
+  // a view name shows that view; any other id shows the view that holds it (an id outside every view, such as #top, keeps the current one)
+  const v = VIEWS.includes(h) ? h : host ? host.dataset.view : target && shown ? shown.dataset.view : "loop";
   document.querySelectorAll("main section").forEach(s => s.classList.toggle("on", s.dataset.view === v));
   $("#spentPin").hidden = v !== "tree";   // the pinned Spent readout belongs to the Upgrade tree view only
   pinTop();
@@ -526,15 +543,85 @@ function pinTop() { document.documentElement.style.setProperty("--hdr", document
 addEventListener("hashchange", route); addEventListener("resize", pinTop);
 if (window.ResizeObserver) new ResizeObserver(pinTop).observe(document.querySelector("header.top"));
 
+/* ---------- cross links ---------- */
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+/* [pattern, target id, selector where the term is NOT linked (optional)]. A target is a view name or an element id. The first mention of a target in each
+   paragraph, list item, table cell or caption is linked; a term is never linked inside the section, card or row it points to, nor in headings, buttons or row labels. */
+const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const LINKS = [
+  // enemy ships (cards on Enemies)
+  ["\\b[Ss]uiciders?\\b", "enemy-suicider"], ["\\bAdvanced Shooters?\\b", "enemy-advancedshooter"], ["\\b[Ss]hooters?\\b", "enemy-shooter"],
+  ["\\bHealers?\\b", "enemy-healer"], ["\\bBlockers?\\b", "enemy-blocker"], ["\\bSpawners?\\b", "enemy-spawner"], ["\\bSynapse Drones?\\b", "enemy-synapsedrone"],
+  ["\\bNexus Pylons?\\b", "enemy-nexuspylon"], ["\\bWraiths?\\b", "enemy-wraith"], ["\\bRift Weavers?\\b", "enemy-riftweaver"], ["\\b(?:Iron Leviathan|Dreadnought)s?\\b", "enemy-ironleviathan"],
+  // weapons and abilities (rows on How you play)
+  ["\\bStellar Punch\\b", "weapon-stellar-punch"], ["\\bHoming Missile\\b(?! Turret)", "weapon-homing-missile"], ["\\bLaser Blaster\\b", "weapon-laser-blaster"],
+  ["\\bMass Driver\\b(?! Only)", "weapon-mass-driver"], ["\\bDrop Mine\\b", "weapon-drop-mine"], ["\\bmines?\\b", "weapon-drop-mine"],
+  ["(?<=\\b(?:the|a|your|The|A|Your) )Shield\\b(?! (?:Booster|Tiers|branch|cards?))", "ability-shield"], ["\\bOrbital Strike\\b", "ability-orbital-strike"],
+  ["\\bEMP\\b(?! Mine| Siege| jam)", "ability-emp"], ["\\bTime Slow\\b", "ability-time-slow"], ["\\bEmergency Shield\\b", "ability-emergency-shield"],
+  ["\\b[Aa]bilities\\b", "abilities"], ["\\bUntethered\\b", "reach"], ["\\bspawn window\\b", "lanes"],
+  // shop items (rows of the shop table), turret sites, stations
+  ...DATA.shop.map(s => [reEsc(s.n), "shop-" + slug(s.n)]),
+  ["\\b[Tt]urret sites?\\b|\\bbuild slots?\\b", "turret-sites"], ["\\b[Tt]urrets\\b", "turret-sites", "#enemyGrid, #enemyGrid2"],
+  ["\\b(?:[Ss]pace )?[Ss]tations?\\b|\\bOutposts?\\b|\\bBulwarks?\\b", "stations", "#enemyGrid2"],
+  ["\\bshop\\b", "shop"],
+  // rewards and resources
+  ["\\bPassive\\b", "passive"], ["\\b[Kk]ill (?:points?|resources)\\b", "kill-points"], ["\\bUpgrade Points\\b", "payout"],
+  ["\\b[Hh]eat modifiers?\\b", "heat"], ["\\bRUN SETUP\\b", "difficulty"], ["\\b[Cc]hallenges\\b|\\bCHALLENGES\\b", "challenges"], ["\\b[Cc]hoice of three\\b", "picks"],
+  // upgrade tree and its branches
+  ["\\bUPGRADES\\b|\\b[Uu]pgrade tree\\b", "tree"],
+  ["\\bTurrets(?= (?:and \\w+ )?branch)", "branch-turrets"], ["\\bStats(?= (?:and \\w+ )?branch)", "branch-stats"], ["\\bSHIELD(?= branch)", "branch-shield"],
+  ["\\bUtilities(?= (?:and \\w+ )?branch|\\))", "branch-utilities"],
+  // settings, training, menus
+  ["\\bSETTINGS\\b", "fit-body"], ["\\bMEASURE MY BODY\\b|\\bCONTROLLER ANGLE\\b", "fit-body"], ["\\bSEE-THROUGH\\b", "see-through"],
+  ["\\bTRAINING\\b", "training"], ["\\b[Tt]itle screen\\b", "menus"],
+].map(([re, to, not]) => ({ re: new RegExp(re), to, not }));
+const SKIP = "a, button, h1, h2, h3, h4, select, label, script, style, .eyebrow, .chip, .mono, .blabel, .wavechips, .kv, summary";
+function linkScope(to) {
+  const T = VIEWS.includes(to) ? document.getElementById("s-" + to) : document.getElementById(to);
+  return T ? (VIEWS.includes(to) ? T : T.closest("tr, article, .block") || T) : null;
+}
+function linkify(root) {
+  const seen = new Map();   // per paragraph, list item or caption; per row for table cells
+  root.querySelectorAll("p, li, td, figcaption").forEach(unit => {
+    if (unit.querySelector("p, li, td, figcaption")) return;   // innermost units only
+    const key = unit.tagName === "TD" ? unit.parentElement : unit;
+    if (!seen.has(key)) seen.set(key, new Set());
+    const done = seen.get(key);
+    const w = document.createTreeWalker(unit, NodeFilter.SHOW_TEXT);
+    const nodes = []; for (let n = w.nextNode(); n; n = w.nextNode()) nodes.push(n);
+    for (let node of nodes) {
+      const par = node.parentElement;
+      const rowLabel = par.tagName === "B" && par.parentElement.tagName === "TD" && par.parentElement.firstElementChild === par && par.parentElement.parentElement.firstElementChild === par.parentElement;
+      if (par.closest(SKIP) || rowLabel) continue;
+      for (;;) {
+        let best = null;
+        for (const L of LINKS) {
+          if (done.has(L.to) || (L.not && par.closest(L.not))) continue;
+          const m = L.re.exec(node.data);
+          if (!m || (best && (m.index > best.m.index || (m.index === best.m.index && m[0].length <= best.m[0].length)))) continue;
+          const sc = linkScope(L.to);
+          if (!sc || sc.contains(node)) continue;
+          best = { L, m };
+        }
+        if (!best) break;
+        const { L, m } = best;
+        const mid = node.splitText(m.index), rest = mid.splitText(m[0].length);
+        const a = document.createElement("a"); a.href = "#" + L.to; mid.parentNode.replaceChild(a, mid); a.append(mid);
+        done.add(L.to); node = rest;
+      }
+    }
+  });
+}
+
 /* ---------- loop ---------- */
 const steps = [
-  ["Title screen", "Run setup", "Under THIS RUN, RUN SETUP picks a difficulty and switches on heat modifiers for a bigger payout; CHALLENGES starts a fixed run. Then PLAY."],
-  ["Wave", "Fight", "Ships come in through a window around the way you faced at the start. Punch the close ones and shoot the rest; the planet earns Passive resources, kills earn Kill resources."],
-  ["Rest", "Shop", "A break after each wave: it lasts until you press START WAVE on Easy, 20 s on Normal and 10 s on Hard, and nothing accrues during it. Spend Passive on turrets, shields, repairs and stations."],
-  ["After a wave", "Choice of three", "Take one of three run-only cards, or skip it for 50 Passive."],
-  ["Run over", "Upgrade tree", "Kill resources become Upgrade Points, plus a wave bonus and heat payout. Spend them in UPGRADES."],
+  ["Title screen", "Run setup", "Under THIS RUN, RUN SETUP picks a difficulty and switches on heat modifiers for a bigger payout; CHALLENGES starts a fixed run. Then PLAY.", "difficulty"],
+  ["Wave", "Fight", "Ships come in through a window around the way you faced at the start. Punch the close ones and shoot the rest; the planet earns Passive resources, kills earn Kill resources.", "waves"],
+  ["Rest", "Shop", "A break after each wave: it lasts until you press START WAVE on Easy, 20 s on Normal and 10 s on Hard, and nothing accrues during it. Spend Passive on turrets, shields, repairs and stations.", "shop"],
+  ["After a wave", "Choice of three", "Take one of three run-only cards, or skip it for 50 Passive.", "picks"],
+  ["Run over", "Upgrade tree", "Kill resources become Upgrade Points, plus a wave bonus and heat payout. Spend them in UPGRADES.", "tree"],
 ];
-$("#loopSteps").append(...steps.map(([e, h, p]) => el("div", { class: "step" }, `<span class="eyebrow">${e}</span><h3>${h}</h3><p>${p}</p>`)));
+$("#loopSteps").append(...steps.map(([e, h, p, to]) => el("div", { class: "step" }, `<span class="eyebrow">${e}</span><h3><a href="#${to}">${h}</a></h3><p>${p}</p>`)));
 
 const res = [
   ["var(--accent)", "Passive", "This run only", "Produced by the continents during the run: each makes 1 a second at full health and less as it is damaged, so a healthy planet makes 5 a second before the factors below (the shop shows the rate, for example +4.3/s). Clearing waves 5 to 9 pays a bonus. Pays for everything in the shop and for stations."],
@@ -594,16 +681,16 @@ $("#waveTable").innerHTML = `<thead><tr><th>Wave</th><th class="num">Length</th>
 }</tbody>`;
 
 $("#shopTable").innerHTML = `<thead><tr><th>Item</th><th class="num">Price</th><th class="num">Per run</th></tr></thead><tbody>${
-  [0, 1, 2].map(c => `<tr><th colspan="3">${["DEFENSE", "RESTORE", "BOOST"][c]} tab</th></tr>` + DATA.shop.filter(s => s.cat === c).map(s => `<tr><td><b>${esc(s.n)}</b><br><span class="note">${esc(s.d)}${s.wave > 1 ? ` From wave ${s.wave}.` : ""}${s.card ? ` Appears once you own the ${esc(s.card)} card${s.lvl > 1 ? ` at level ${s.lvl}` : ""}.` : ""}${s.tier ? " More than one needs the Planetary Shield Tiers card." : ""}${s.cheap ? " Repair Efficiency makes it cheaper." : ""}</span></td><td class="num">${s.c}${s.k > 1 ? `<br><span class="note">x${s.k}</span>` : ""}</td><td class="num">${s.n === "Defense Repair" ? "once a rest" : s.tier ? `1 (up to ${s.run})` : s.run ? (/Turret/.test(s.n) ? `${s.run} to start` : s.run) : "no limit"}</td></tr>`).join("")).join("")
-}<tr><th colspan="3">STATIONS (wrist menu)</th></tr><tr><td><b>Outpost station</b><br><span class="note">Hull 400, four turret mounts. Needs the Space Stations card.</span></td><td class="num">150<br><span class="note">+ turrets</span></td><td class="num">2</td></tr><tr><td><b>Bulwark station</b><br><span class="note">Hull 1,200, shield 600, two mounts, two built-in point-defense guns.</span></td><td class="num">400<br><span class="note">+ turrets</span></td><td class="num">2</td></tr></tbody>`;
+  [0, 1, 2].map(c => `<tr><th colspan="3" id="shop-${["defense", "restore", "boost"][c]}">${["DEFENSE", "RESTORE", "BOOST"][c]} tab</th></tr>` + DATA.shop.filter(s => s.cat === c).map(s => `<tr id="shop-${slug(s.n)}"><td><b>${esc(s.n)}</b><br><span class="note">${esc(s.d)}${s.wave > 1 ? ` From wave ${s.wave}.` : ""}${s.card ? ` Appears once you own the ${esc(s.card)} card${s.lvl > 1 ? ` at level ${s.lvl}` : ""}.` : ""}${s.tier ? " More than one needs the Planetary Shield Tiers card." : ""}${s.cheap ? " Repair Efficiency makes it cheaper." : ""}</span></td><td class="num">${s.c}${s.k > 1 ? `<br><span class="note">x${s.k}</span>` : ""}</td><td class="num">${s.n === "Defense Repair" ? "once a rest" : s.tier ? `1 (up to ${s.run})` : s.run ? (/Turret/.test(s.n) ? `${s.run} to start` : s.run) : "no limit"}</td></tr>`).join("")).join("")
+}<tr><th colspan="3" id="shop-stations">STATIONS (wrist menu)</th></tr><tr id="shop-outpost"><td><b>Outpost station</b><br><span class="note">Hull 400, four turret mounts. Needs the Space Stations card.</span></td><td class="num">150<br><span class="note">+ turrets</span></td><td class="num">2</td></tr><tr id="shop-bulwark"><td><b>Bulwark station</b><br><span class="note">Hull 1,200, shield 600, two mounts, two built-in point-defense guns.</span></td><td class="num">400<br><span class="note">+ turrets</span></td><td class="num">2</td></tr></tbody>`;
 
 const A = DATA.abilities;
 $("#abilityTable").innerHTML = `<thead><tr><th>Ability</th><th>VR control</th><th class="num">Cooldown</th></tr></thead><tbody>
-<tr><td><b>Shield</b><br><span class="note">Every profile has it. A curved patch 3 lanes wide and 3 tall (30 by 30 degrees seen from the planet's center), just outside the planet where you place it. It stops every attack fired from inside its lanes and from farther out: shots, missiles, bombs, beams, the Iron Leviathan's turret shots and lance, and diving Suiciders. It loses what the planet would have lost and breaks after 200 (the hit that breaks it is stopped whole). One at a time; it lasts until it breaks, you place another, or the wave's rest begins. It does not work while a wave is not running or while Untethered.</span></td><td>Hands at your chest, palms forward: hold both grip buttons and push both hands forward together. The shield appears where they point; keep holding to move it, let go of both grip buttons to place it. Pull both hands back to your chest before letting go to cancel.</td><td class="num">none</td></tr>
-<tr><td><b>Orbital Strike</b><br><span class="note">Hits where the right controller points ${A.orbitalStrike.delay} s later: ${A.orbitalStrike.damage} damage in a ${A.orbitalStrike.radius}-unit radius (${pct(A.orbitalStrike.edgeFactor)} at the edge).</span></td><td class="mono">A</td><td class="num">${A.orbitalStrike.cooldown} s</td></tr>
-<tr><td><b>EMP</b><br><span class="note">Ships within ${A.emp.radiusInPlanetRadii} planet radii lose guidance for ${A.emp.stunSeconds} s and coast straight on. Missiles don't launch; guns keep firing. Their missiles and bombs do a tenth of their damage.</span></td><td class="mono">B</td><td class="num">${A.emp.cooldown} s</td></tr>
-<tr><td><b>Time Slow</b><br><span class="note">Enemies and their shots move at ${pct(A.timeSlow.enemySpeed)} speed for ${A.timeSlow.duration} s. You, turrets and stations don't slow.</span></td><td class="mono">X</td><td class="num">${A.timeSlow.cooldown} s</td></tr>
-<tr><td><b>Emergency Shield</b><br><span class="note">The planet and its continents take no damage for ${A.shieldBurst.duration} s. Nothing else is protected.</span></td><td class="mono">Left stick click</td><td class="num">${A.shieldBurst.cooldown} s</td></tr></tbody>`;
+<tr id="ability-shield"><td><b>Shield</b><br><span class="note">Every profile has it. A curved patch 3 lanes wide and 3 tall (30 by 30 degrees seen from the planet's center), just outside the planet where you place it. It stops every attack fired from inside its lanes and from farther out: shots, missiles, bombs, beams, the Iron Leviathan's turret shots and lance, and diving Suiciders. It loses what the planet would have lost and breaks after 200 (the hit that breaks it is stopped whole). One at a time; it lasts until it breaks, you place another, or the wave's rest begins. It does not work while a wave is not running or while Untethered.</span></td><td>Hands at your chest, palms forward: hold both grip buttons and push both hands forward together. The shield appears where they point; keep holding to move it, let go of both grip buttons to place it. Pull both hands back to your chest before letting go to cancel.</td><td class="num">none</td></tr>
+<tr id="ability-orbital-strike"><td><b>Orbital Strike</b><br><span class="note">Hits where the right controller points ${A.orbitalStrike.delay} s later: ${A.orbitalStrike.damage} damage in a ${A.orbitalStrike.radius}-unit radius (${pct(A.orbitalStrike.edgeFactor)} at the edge).</span></td><td class="mono">A</td><td class="num">${A.orbitalStrike.cooldown} s</td></tr>
+<tr id="ability-emp"><td><b>EMP</b><br><span class="note">Ships within ${A.emp.radiusInPlanetRadii} planet radii lose guidance for ${A.emp.stunSeconds} s and coast straight on. Missiles don't launch; guns keep firing. Their missiles and bombs do a tenth of their damage.</span></td><td class="mono">B</td><td class="num">${A.emp.cooldown} s</td></tr>
+<tr id="ability-time-slow"><td><b>Time Slow</b><br><span class="note">Enemies and their shots move at ${pct(A.timeSlow.enemySpeed)} speed for ${A.timeSlow.duration} s. You, turrets and stations don't slow.</span></td><td class="mono">X</td><td class="num">${A.timeSlow.cooldown} s</td></tr>
+<tr id="ability-emergency-shield"><td><b>Emergency Shield</b><br><span class="note">The planet and its continents take no damage for ${A.shieldBurst.duration} s. Nothing else is protected.</span></td><td class="mono">Left stick click</td><td class="num">${A.shieldBurst.cooldown} s</td></tr></tbody>`;
 
 /* ---------- how you play ---------- */
 const B = DATA.body, Wp = DATA.weapons;
@@ -619,11 +706,11 @@ $("#reachText").textContent = `A hand's attack counts only within the punch's re
 $("#untetherText").textContent = `If your headset is more than ${B.untetheredGrace} m outside the planet's radius, measured sideways, you are Untethered: no attack does damage and a red warning shows ahead of you. It is the only thing that follows your head. No side panel or radar is ever placed where it shows, and while it shows, anything else that comes into its area is hidden. Step back in and it clears. Placing a station or a mine is not blocked.`;
 
 $("#weaponTable").innerHTML = `<thead><tr><th>Weapon</th><th>Motion</th><th>What it does</th></tr></thead><tbody>
-<tr><td><b>Stellar Punch</b><br><span class="note">always owned</span></td><td>Punch: drive a fist out from your shoulder at 2 m/s or more</td><td>Your fist (a ${Math.round(Wp.punchFistRadius * 100)} cm ball) hits each ship it touches for ${Wp.punchDamage} damage times the swing multiplier, 1 at 2 m/s up to 3 at 10 m/s, measured along the punch away from the shoulder (a wrist flick does nothing). Where the punch stops, pulls back or after ${Wp.punchMaxSwing} s, a blast ${Math.round(Wp.punchBlastRadius * 100)} cm in radius hits every ship in it for ${pct(Wp.punchBlastDamage)} of that. A ship that survives is knocked back the way your fist moved; heavy ships move less. Each hand punches again after ${Wp.punchRecovery} s.</td></tr>
-<tr><td><b>Homing Missile</b></td><td>Throw: hold the grip button with a hand near your shoulder or in front of it (a missile appears), swing forward and let go as you throw. Either hand</td><td>${Wp.missileDamage} damage, ${Wp.missileCooldown} s between throws for each hand, ${Wp.missileSpeed} units/s, turns ${Wp.missileTurnRate} degrees/s. It leaves along your swing in full 3D, up and down included, and locks the ship nearest that line inside a small cone (${Wp.missileLockConeDegrees} degrees). Its burst also hurts ships packed close around the one it hits.</td></tr>
-<tr><td><b>Laser Blaster</b></td><td>Stretch and release: hold both grip buttons, stretch your hands apart to the sides, then bring them together fast in front of you</td><td>${Wp.laserClapDamagePerSecond} damage a second at full charge, times the charge, for ${Wp.laserBeamSeconds} s; reach ${Wp.laserRange} units. The charge grows with the stretch: none under a quarter of your arm span, full at 0.7 of it. One beam per release, at most one every ${Wp.laserClapRecharge} s. It leaves the midpoint of your hands along the line from your chest, up, down or level, and ends on the first ship it meets; it bends onto a ship within 2.5 degrees of its line.</td></tr>
-<tr><td><b>Mass Driver</b></td><td>Bow draw: hold both grip buttons with your hands a little apart, one behind the other, pull the back hand toward your cheek, and let go of its grip button</td><td>${Wp.massDriverDamage} damage times the draw (0.5 past 6 cm of draw, up to 1 at about 45 cm) times the hold (1, rising to ${1 + Wp.massDriverHoldBonus} after ${Wp.massDriverHoldSeconds} s of holding the draw). ${Wp.massDriverCooldown} s between slugs, ${Wp.massDriverSpeed} units/s. The slug is a long bolt whose whole length hits; it is led onto a ship within 6 degrees of the line from your back hand through your front hand.</td></tr>
-<tr><td><b>Drop Mine</b><br><span class="note">a card in the tree</span></td><td>Raise your left hand for the wrist menu, touch MINE with your right hand, hold the grip button, reach out and let go</td><td>Thrown up to ${Wp.mineThrowDistance} units out, ${Wp.mineCooldown} s between throws. It chases a ship that comes near and explodes beside it.</td></tr></tbody>`;
+<tr id="weapon-stellar-punch"><td><b>Stellar Punch</b><br><span class="note">always owned</span></td><td>Punch: drive a fist out from your shoulder at 2 m/s or more</td><td>Your fist (a ${Math.round(Wp.punchFistRadius * 100)} cm ball) hits each ship it touches for ${Wp.punchDamage} damage times the swing multiplier, 1 at 2 m/s up to 3 at 10 m/s, measured along the punch away from the shoulder (a wrist flick does nothing). Where the punch stops, pulls back or after ${Wp.punchMaxSwing} s, a blast ${Math.round(Wp.punchBlastRadius * 100)} cm in radius hits every ship in it for ${pct(Wp.punchBlastDamage)} of that. A ship that survives is knocked back the way your fist moved; heavy ships move less. Each hand punches again after ${Wp.punchRecovery} s.</td></tr>
+<tr id="weapon-homing-missile"><td><b>Homing Missile</b></td><td>Throw: hold the grip button with a hand near your shoulder or in front of it (a missile appears), swing forward and let go as you throw. Either hand</td><td>${Wp.missileDamage} damage, ${Wp.missileCooldown} s between throws for each hand, ${Wp.missileSpeed} units/s, turns ${Wp.missileTurnRate} degrees/s. It leaves along your swing in full 3D, up and down included, and locks the ship nearest that line inside a small cone (${Wp.missileLockConeDegrees} degrees). Its burst also hurts ships packed close around the one it hits.</td></tr>
+<tr id="weapon-laser-blaster"><td><b>Laser Blaster</b></td><td>Stretch and release: hold both grip buttons, stretch your hands apart to the sides, then bring them together fast in front of you</td><td>${Wp.laserClapDamagePerSecond} damage a second at full charge, times the charge, for ${Wp.laserBeamSeconds} s; reach ${Wp.laserRange} units. The charge grows with the stretch: none under a quarter of your arm span, full at 0.7 of it. One beam per release, at most one every ${Wp.laserClapRecharge} s. It leaves the midpoint of your hands along the line from your chest, up, down or level, and ends on the first ship it meets; it bends onto a ship within 2.5 degrees of its line.</td></tr>
+<tr id="weapon-mass-driver"><td><b>Mass Driver</b></td><td>Bow draw: hold both grip buttons with your hands a little apart, one behind the other, pull the back hand toward your cheek, and let go of its grip button</td><td>${Wp.massDriverDamage} damage times the draw (0.5 past 6 cm of draw, up to 1 at about 45 cm) times the hold (1, rising to ${1 + Wp.massDriverHoldBonus} after ${Wp.massDriverHoldSeconds} s of holding the draw). ${Wp.massDriverCooldown} s between slugs, ${Wp.massDriverSpeed} units/s. The slug is a long bolt whose whole length hits; it is led onto a ship within 6 degrees of the line from your back hand through your front hand.</td></tr>
+<tr id="weapon-drop-mine"><td><b>Drop Mine</b><br><span class="note">a card in the tree</span></td><td>Raise your left hand for the wrist menu, touch MINE with your right hand, hold the grip button, reach out and let go</td><td>Thrown up to ${Wp.mineThrowDistance} units out, ${Wp.mineCooldown} s between throws. It chases a ship that comes near and explodes beside it.</td></tr></tbody>`;
 
 const lane = DATA.difficulties.map(d => ({ n: d.displayName, c: d.center }));
 const c0 = lane[0].c;
@@ -650,7 +737,7 @@ $("#chalTable").innerHTML = `<thead><tr><th>Challenge</th><th>Rules</th><th clas
 const maxHp = 200;
 const enemyCard = e => {
   const hpW = Math.min(1, e.hp / maxHp), spW = Math.min(1, e.spd / 16), pdW = Math.min(1, e.planet / 25);
-  const card = el("article", { class: "panel enemy" });
+  const card = el("article", { class: "panel enemy", id: "enemy-" + e.key.toLowerCase() });
   card.innerHTML = `<div class="head"><h3>${esc(e.n)}</h3><span class="chip ${e.role === "Capital ship" ? "c-danger" : "c-accent"}">${e.role}</span></div>
   <p>${esc(e.d)}</p>
   <div class="stats">
@@ -764,7 +851,7 @@ for (const [id, t] of BR) {
   const b = el("button", { type: "button" }, t);
   b.addEventListener("click", () => { $("#treeFrame").scrollTo({ left: Math.max(0, Math.min(...xs) - 120), behavior: "smooth" }); });
   bbar.append(b);
-  const lab = el("div", { class: "blabel" }, t.toUpperCase()); lab.style.left = (Math.min(...xs) + Math.max(...xs)) / 2 + "px"; canvas.append(lab);
+  const lab = el("div", { class: "blabel", id: "branch-" + id.toLowerCase() }, t.toUpperCase()); lab.style.left = (Math.min(...xs) + Math.max(...xs)) / 2 + "px"; canvas.append(lab);
 }
 const nodeEls = {};
 for (const n of nodes) {
@@ -817,6 +904,7 @@ function drawDetail() {
   if (sb) sb.addEventListener("click", () => { if (!canSell(n)) return; plan[n.id]--; if (!plan[n.id]) delete plan[n.id]; save(); drawTree(); });
 }
 drawTree();
+linkify(document.querySelector("main"));
 route();
 </script>
 
