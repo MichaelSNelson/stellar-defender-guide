@@ -179,7 +179,7 @@ figcaption b { color: var(--ink) }
 
 <header class="top" id="top">
   <div class="wrap">
-    <div class="brand"><b><a href="https://claude.ai/artifact/JTq1aJnKYX4MuPuYNmVDoy">S</a>TELLAR DEFENDER</b><span>Field guide, dev build Y (v0.17.0)</span></div>
+    <div class="brand"><b><a href="https://claude.ai/artifact/JTq1aJnKYX4MuPuYNmVDoy">S</a>TELLAR DEFENDER</b><span>Field guide, dev build Z (v0.18.0)</span></div>
     <nav class="tabs" aria-label="Sections">
       <a href="#loop">Game loop</a>
       <a href="#rewards">Rewards</a>
@@ -402,7 +402,7 @@ figcaption b { color: var(--ink) }
       <span class="eyebrow">Models from the game</span>
       <h2>Structures</h2>
       <p>The turrets, stations, mine, the colony ship's two halves and the Blocker, as low-poly models from the make-model library. Drag to turn a model, scroll or pinch to zoom. <span class="legend-dot"></span>Amber dots mark attach points: where turrets mount on a station, the Bulwark's built-in guns, and the colony ship's gun barrels.</p>
-      <p class="note" style="margin-top:10px">On this page: <a href="#turret-sites">turret sites</a> &middot; <a href="#stations">stations</a> &middot; <a href="#mines">mines</a> &middot; <a href="#colony-ship">the colony ship</a>.</p>
+      <p class="note" style="margin-top:10px">On this page: <a href="#turret-sites">turret sites</a> &middot; <a href="#stations">stations</a> &middot; <a href="#target-alarm">target alarm</a> &middot; <a href="#mines">mines</a> &middot; <a href="#colony-ship">the colony ship</a>.</p>
     </div>
     <div class="viewer-shell">
       <div class="picker" id="modelPicker" role="group" aria-label="Choose a structure"></div>
@@ -424,6 +424,7 @@ figcaption b { color: var(--ink) }
     </div>
     <p class="note" style="margin-top:12px" id="turret-sites"><b>Turrets</b> are built only on the build slots of the planet's turret sites. Planet 1 has one thin ring close around the planet, 1.3 planet radii out, with 10 slots spaced evenly all the way round it (36 degrees apart, one straight ahead); it stays fixed in the sky while the continents turn below it, and each turret guards a direction. The moons are scenery. Buying a turret starts the slot pick: the Planet Upgrade Shop steps aside, the thumbstick steps along the free slots (it starts on the one nearest where you look), the trigger builds and B cancels with the price refunded. Enemy shots and ramming ships can destroy a turret (Laser 160 health, Ballistic 220, Missile 180, Point Defense 120); its slot is then free again, and Defense Repair mends them.</p>
     <p class="note" style="margin-top:8px" id="stations">Stations go on one of three rings, 1.35, 1.65 and 2 planet radii out. A turret on a station mount aims down to 30 degrees below level and does a quarter of its planet-site damage (a first value). The Space Stations Perk costs 2,625 Perk Points, Station Limit 1,400 and then 2,100.</p>
+    <p class="note" style="margin-top:8px" id="target-alarm"><b>Target alarm.</b> While an enemy is targeting or hitting one of your ring turrets or stations, a soft orange ring pulses out of it every 1.4 s, with a quiet siren that seems to come from that body. The ring is larger around a small body and a thin band around a large one. At most two sirens sound at once (the most recently targeted bodies), and the alarm stops 1.5 s after the targeting ends or at once if the body is destroyed.</p>
     <div class="block" id="mines" style="margin-top:30px">
       <h3>Mines</h3>
       <p>A mine is a small drone you throw out, and the Drop Mine Perk unlocks it (1,000 Perk Points, once 10,000 points are spent in the Perk tree). In VR, raise your left hand for the wrist menu, touch MINE with your right hand, hold the grip button, reach out and let go: the farther your hand, the farther the mine flies, up to 220 units out. It arms after 0.6 s and waits. When an enemy comes within 90 units it chases it, at half the top speed of the fastest enemy type (Mine Speed raises that), and when one is within 28 units it explodes: 150 damage at the center, half at the edge of a 45-unit blast. If the ship it chases gets away, it goes off where it is, unless you own Mine Recall (it flies home and arms again) or Focused Blast (it charges for half a second and fires a blast at the ship).</p>
@@ -636,7 +637,7 @@ const LINKS = [
   // weapons and abilities (rows on How you play)
   ["\\bStellar Punch\\b", "weapon-stellar-punch"], ["\\bHoming Missile\\b(?! Turret)", "weapon-homing-missile"], ["\\bLaser Blaster\\b", "weapon-laser-blaster"],
   ["\\bMass Driver\\b(?! Only)", "weapon-mass-driver"], ["\\bDrop Mine\\b", "weapon-drop-mine"], ["\\bmines?\\b", "mines"],
-  ["\\b[Cc]olony ship\\b", "colony-ship"], ["\\bENEMY SPECIES\\b", "species-screen"], ["\\bBUILDS\\b|\\bsaved builds?\\b", "builds"], ["\\bHOW TO PLAY\\b", "how-to-play"],
+  ["\\b[Cc]olony ship\\b", "colony-ship"], ["\\b[Tt]arget alarm\\b", "target-alarm"], ["\\bENEMY SPECIES\\b", "species-screen"], ["\\bBUILDS\\b|\\bsaved builds?\\b", "builds"], ["\\bHOW TO PLAY\\b", "how-to-play"],
   ["\\bSETTINGS, HUD\\b", "settings-hud"], ["\\bSETTINGS, PLAY\\b", "settings-play"], ["\\bSETTINGS, GRAPHICS\\b", "settings-graphics"],
   ["\\bSparkle Stampede\\b", "species-sparkle"], ["\\bGnome-a-geddon\\b", "species-gnome"], ["\\bRazorlight\\b", "species-razorlight"],
   ["(?<=\\b(?:the|a|your|The|A|Your) )Shield\\b(?! (?:Booster|Tiers|branch|[Pp]erks?|cards?))", "ability-shield"], ["\\bOrbital Strike\\b", "ability-orbital-strike"],
