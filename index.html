@@ -127,16 +127,13 @@ td.num, th.num { text-align: right; white-space: nowrap }
 .tree-divider { position: absolute; top: 0; bottom: 0; width: 0; border-left: 2px dashed var(--line); pointer-events: none }
 .slabel { position: absolute; top: 46px; font: 700 0.74rem var(--display); letter-spacing: 0.08em; color: var(--accent); white-space: nowrap; text-transform: uppercase; max-width: 640px }
 .blabel { position: absolute; top: 14px; font: 700 0.82rem var(--display); letter-spacing: 0.1em; color: var(--muted); white-space: nowrap; transform: translateX(-50%) }
-.node { position: absolute; width: 156px; min-height: 58px; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); text-align: left; cursor: pointer; font: inherit; display: grid; gap: 2px; transform: translate(-50%, -50%) }
-.node b { font: 600 0.8rem/1.2 var(--body) }
-.node span { font: 0.7rem var(--mono); color: var(--muted) }
-.node .pips { display: flex; gap: 2px; margin-top: 2px }
-.node .pips i { width: 10px; height: 3px; background: var(--line); border-radius: 1px }
-.node .pips i.f { background: var(--accent) }
-.node.owned { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent) }
-.node.avail { border-color: var(--good) }
-.node.locked { opacity: 0.62 }
-.node.soon { border-style: dashed; border-color: var(--soon) }
+.node { position: absolute; width: 156px; height: 66px; padding: 5px 9px 0; border: 0; background: none; color: var(--ink); text-align: center; cursor: pointer; font: inherit; display: block; transform: translate(-50%, -50%) }
+.node .nsv { position: absolute; left: 0; top: 0; width: 156px; height: 66px; overflow: visible; pointer-events: none }
+.node b, .node .row { position: relative }
+.node b { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font: 700 0.8rem/1.15 var(--body); height: 2.3em }
+.node .row { display: flex; justify-content: space-between; gap: 4px; margin-top: 3px; font: 0.68rem/1.2 var(--mono); color: var(--muted) }
+.node.locked { opacity: 0.7 }
+.node.soon .row .st { color: var(--amber) }
 .node.sel { outline: 2px solid var(--amber); outline-offset: 2px }
 .detail { position: sticky; top: 72px }
 .detail .head { display: flex; justify-content: space-between; gap: 10px; align-items: start }
@@ -758,15 +755,15 @@ const lean = DATA.heat.find(h => h.displayName === "Lean Supply"), profiteer = p
 const diffList = key => DF.map(d => `${d.displayName} ${d[key]}x`).join(", ");
 const authoredBonus = DATA.waves.filter(w => w.pb > 0).map(w => `wave ${DATA.waves.indexOf(w) + 1}: ${fmt(w.pb)}`).join(", ");
 $("#passiveTable").innerHTML = `<thead><tr><th>Source</th><th>Amount</th><th>Scaled by</th></tr></thead><tbody>
-<tr><td><b>The continents</b></td><td>Each continent makes 1 a second at full health, times its share of health left; up to 5 a second for the five continents.</td><td>Difficulty (${diffList("passiveResources")}); Lean Supply heat (x${lean.value}); ${esc(passiveCard.n)} Perk (+${pct(passiveCard.v0)} a level, up to +${pct(cardTop(passiveCard))}); War Profiteer Mod (-30%)</td></tr>
+<tr><td><b>The continents</b></td><td>Each continent makes 1 a second at full health, times its share of health left; up to 5 a second for the five continents.</td><td>Difficulty (${diffList("passiveResources")}); Lean Supply heat (x${lean.value})${passiveCard.n ? `; ${esc(passiveCard.n)} Perk (+${pct(passiveCard.v0)} a level, up to +${pct(cardTop(passiveCard))})` : "; Perks on the PASSIVES tab"}; War Profiteer Mod (-30%)</td></tr>
 <tr><td><b>Clearing a wave</b></td><td>${authoredBonus}. Waves 1 to 4 and the last wave pay none. Paid only when the wave is cleared, not when its time runs out.</td><td>Difficulty and Lean Supply only</td></tr>
 <tr><td><b>SKIP</b> on the Mods screen</td><td>${fmt(DATA.runChoice.skipUpgradePoints)}</td><td>Perk Points, times the difficulty's kill-point multiplier</td></tr>
-<tr><td><b>${esc(startCard.n)}</b> Perk</td><td>${fmt(startCard.v0)} a level (up to ${fmt(cardTop(startCard))}), once at the start of the run</td><td>Nothing</td></tr>
+${startCard.n ? `<tr><td><b>${esc(startCard.n)}</b> Perk</td><td>${fmt(startCard.v0)} a level (up to ${fmt(cardTop(startCard))}), once at the start of the run</td><td>Nothing</td></tr>` : ""}
 <tr><td><b>Scrap Valorization</b> Mod</td><td>${esc(pickByName("Scrap Valorization").d)} Stacks ${pickByName("Scrap Valorization").stacks} times.</td><td>Nothing</td></tr>
 <tr><td><b>Vault Reserve</b> Mod</td><td>${esc(pickByName("Vault Reserve").d)}</td><td>Nothing</td></tr></tbody>`;
 
 const kp = DF.map(d => `${d.displayName} ${d.killPoints}x`).join(", ");
-$("#killText").innerHTML = `Each ship you destroy pays its point value (on its card on the <a href="#enemies">Enemies</a> page) times the difficulty's kill factor (${kp}). Only ${Math.round(RW.killToPersistentMultiplier*100)}% of that is paid out as Perk Points: a ship worth ${Math.round(1/RW.killToPersistentMultiplier)} points pays 1 Perk Point when the kill factor is 1. Two things raise the payout: the ${esc(killCard.n)} Perk (+${pct(killCard.v0)} a level, up to +${pct(cardTop(killCard))}) and War Profiteer if you took it (${esc(profiteer.d.replace(/\.$/, ""))}). The HUD shows the total as Kill.`;
+$("#killText").innerHTML = `Each ship you destroy pays its point value (on its card on the <a href="#enemies">Enemies</a> page) times the difficulty's kill factor (${kp}). Only ${Math.round(RW.killToPersistentMultiplier*100)}% of that is paid out as Perk Points: a ship worth ${Math.round(1/RW.killToPersistentMultiplier)} points pays 1 Perk Point when the kill factor is 1. ${killCard.n ? `Two things raise the payout: the ${esc(killCard.n)} Perk (+${pct(killCard.v0)} a level, up to +${pct(cardTop(killCard))}) and War Profiteer if you took it` : "Two things raise the payout: a Perk on the PASSIVES tab and War Profiteer if you took it"} (${esc(profiteer.d.replace(/\.$/, ""))}). The HUD shows the total as Kill.`;
 
 const easy = DF[0], normal = DF[1], hard = DF[2];
 const winBonus = (d, a) => a * RW.bonusPerScriptedWavePercent * d.waveBonusFactor;
@@ -1035,6 +1032,25 @@ for (const [id, t] of BR) {
 DIVIDERS.forEach(x => { const d = el("div", { class: "tree-divider" }); d.style.left = x + PAD + "px"; canvas.append(d); });
 for (const s of SECTIONS) { const l = el("div", { class: "slabel" }, s.label); l.style.left = s.x0 + PAD - 60 + "px"; canvas.append(l); }
 const nodeEls = {};
+/* Node look, mirrored from the game's PERKS! card (UpgradeTreeNodeUI, PerkKinds): the game's cards carry no icon art, so the look is the card itself.
+   Rounded card, or SQUARE when a child needs this Perk at its top level (PerkKinds.ChildrenNeedMax); a soft glow when it gives or improves an ACTIVE
+   skill (PerkKinds.IsActive: weapon branches except the eight turret Power/Reach cards, Marked for Death, Utilities except the Radar); a state
+   frame; a level bar along the bottom for Perks with several levels. */
+const TURRET_CARDS = [2721, 2722, 2723, 2724, 2731, 2732, 2733, 2734];
+const WEAPON_BR = ["StellarPunch", "Shield", "LaserBeam", "HomingMissile", "MassDriver", "DropMine"];
+const isActive = n => n.id === 2831 || (n.b === "Utilities" ? n.id !== 2401 : WEAPON_BR.includes(n.b) && !TURRET_CARDS.includes(n.id));
+const isSquare = n => n.L > 1 && (children[n.id] || []).some(c => byId[c] && (byId[c].pl || 1) >= n.L);
+function nodeSvg(n, st, L, max) {
+  const rx = isSquare(n) ? 0 : 10, W = 156, H = 66;
+  const col = st === "owned" ? "var(--accent)" : st === "avail" ? "var(--good)" : st === "soon" ? "var(--soon)" : "var(--locked)";
+  const maxed = L >= max && L > 0, sw = st === "locked" || st === "soon" ? 1.5 : 3, dash = st === "soon" ? "6 4" : st === "locked" ? "1.5 3.5" : "none";
+  let g = "";
+  if (isActive(n) && st !== "soon") g += `<rect x="0" y="0" width="${W}" height="${H}" rx="${rx + 4}" fill="none" stroke="var(--accent)" stroke-opacity=".22" stroke-width="14"/><rect x="0" y="0" width="${W}" height="${H}" rx="${rx + 2}" fill="none" stroke="var(--accent)" stroke-opacity=".35" stroke-width="7"/>`;
+  g += `<rect x="1.5" y="1.5" width="${W - 3}" height="${H - 3}" rx="${rx}" fill="var(--surface)" stroke="${col}" stroke-width="${sw}" stroke-dasharray="${dash}"/>`;
+  if (maxed) g += `<rect x="6" y="6" width="${W - 12}" height="${H - 12}" rx="${Math.max(0, rx - 4)}" fill="none" stroke="${col}" stroke-width="1"/>`;
+  if (max > 1 && L > 0) g += `<rect x="10" y="${H - 9}" width="${W - 20}" height="4" rx="2" fill="var(--line)"/><rect x="10" y="${H - 9}" width="${(W - 20) * L / max}" height="4" rx="2" fill="${col}"/>`;
+  return `<svg class="nsv" viewBox="0 0 ${W} ${H}" aria-hidden="true">${g}</svg>`;
+}
 for (const n of nodes) {
   const b = el("button", { type: "button", class: "node" });
   b.style.left = X(n) + "px"; b.style.top = Y(n) + 40 + "px";
@@ -1049,7 +1065,7 @@ function drawTree() {
     const A = byId[a], B = byId[b]; if (!A || !B) return "";
     const cross = A.b !== B.b;
     if (cross && sel !== a && sel !== b) return "";   // lines between branches show only for the selected card
-    const x1 = X(A), y1 = Y(A) + 40 + 30, x2 = X(B), y2 = Y(B) + 40 - 30, my = (y1 + y2) / 2;
+    const x1 = X(A), y1 = Y(A) + 40 + 33, x2 = X(B), y2 = Y(B) + 40 - 33, my = (y1 + y2) / 2;
     return `<path class="${cross ? "link" : lvl(a) > 0 && lvl(b) > 0 ? "lit" : ""}" d="M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}"/>`;
   }).join("");
   for (const n of nodes) {
@@ -1057,8 +1073,9 @@ function drawTree() {
     b.className = `node ${st}${sel === n.id ? " sel" : ""}`;
     const c1 = cost(n, Math.min(L + 1, max));
     const gated = n.gate && !L && sp < n.gate, lvNeed = need(n) > 1 && !L && !parentsOk(n);
-    const price = st === "soon" ? "coming soon" : (L >= max ? "max" : (c1 ? `${fmt(Math.round(c1))} pts` : "free"));
-    b.innerHTML = `<b>${esc(n.n)}</b><span>${price}${gated ? ` &middot; gate ${fmt(n.gate)}` : ""}${lvNeed ? ` &middot; needs level ${need(n)}` : ""}</span>${max > 1 ? `<span class="pips">${Array.from({ length: max }, (_, i) => `<i class="${i < L ? "f" : ""}"></i>`).join("")}</span>` : ""}`;
+    const price = st === "soon" ? "COMING SOON" : (L >= max ? (max > 1 ? "MAX" : "OWNED") : gated ? `Spend ${fmt(n.gate - sp)} more` : (c1 ? `${fmt(Math.round(c1))} pts` : "free"));
+    const lv = st === "soon" ? "" : st === "locked" ? "LOCKED" : max > 1 ? `Lv ${L}/${max}` : "";
+    b.innerHTML = `${nodeSvg(n, st, L, max)}<b>${esc(n.n)}</b><span class="row"><span class="st">${price}</span><span>${lv}</span></span>`;
     b.setAttribute("aria-label", `${n.n}, ${st === "soon" ? "coming soon" : st}, level ${L} of ${max}`);
   }
   drawDetail();
