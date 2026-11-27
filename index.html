@@ -188,6 +188,7 @@ figcaption b { color: var(--ink) }
       <a href="#tree">Perk tree</a>
       <a href="#enemies">Enemies</a>
       <a href="#interface">Interface</a>
+      <a href="#install">Install</a>
     </nav>
   </div>
 </header>
@@ -598,6 +599,34 @@ figcaption b { color: var(--ink) }
     <p class="note" style="margin-top:24px"><a href="#top">Back to top</a></p>
   </div>
 </section>
+<!-- INSTALL -->
+<section id="s-install" data-view="install">
+  <div class="wrap">
+    <div class="lede">
+      <span class="eyebrow">For testers</span>
+      <h2>Install a dev build</h2>
+      <p>Dev builds are installed on a Meta Quest 3 from a computer, over a USB cable. The download needs access to the game's private repository; without it the link shows a "not found" page.</p>
+    </div>
+    <div class="block">
+      <h3>Once, before the first install</h3>
+      <ul style="margin:0 0 0 18px; display:grid; gap:6px">
+        <li>Turn on <b>Developer Mode</b> for the headset in the Meta Horizon phone app (headset settings, Developer Mode).</li>
+        <li>Put <b>adb</b> on the computer: download Android SDK Platform-Tools from developer.android.com and unzip it.</li>
+      </ul>
+    </div>
+    <div class="block">
+      <h3>Each build</h3>
+      <ol style="margin:0 0 0 18px; display:grid; gap:8px">
+        <li><b>Download</b> the <span class="mono">.apk</span> file from the <a href="https://github.com/MichaelSNelson/StellarDefender/releases/latest">latest release</a>.</li>
+        <li><b>Connect</b> the headset to the computer with a USB cable and put the headset on.</li>
+        <li><b>Allow USB debugging.</b> A prompt appears inside the headset. Choose <b>Allow</b>, and tick "Always allow from this computer" so it does not ask again. If you see no prompt, unplug the cable and plug it in again with the headset awake.</li>
+        <li><b>Check the connection.</b> In a terminal in the Platform-Tools folder, run <span class="mono">adb devices</span>. The headset should be listed as <span class="mono">device</span>. If it says <span class="mono">unauthorized</span>, the prompt in step 3 has not been accepted yet.</li>
+        <li><b>Install.</b> Run <span class="mono">adb install -r</span> followed by the path of the file you downloaded, for example <span class="mono">adb install -r StellarDefender_dev_AG.apk</span>. It ends with <span class="mono">Success</span>. The <span class="mono">-r</span> replaces an older build and keeps your profiles.</li>
+        <li><b>Start it.</b> In the headset open the app Library, set the filter to <b>Unknown Sources</b>, and choose Stellar Defender.</li>
+      </ol>
+    </div>
+  </div>
+</section>
 </main>
 
 <script>
@@ -609,7 +638,7 @@ const pct = f => `${+(f * 100).toFixed(1)}%`;
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
 /* ---------- routing ---------- */
-const VIEWS = ["loop", "rewards", "play", "structures", "tree", "enemies", "interface"];
+const VIEWS = ["loop", "rewards", "play", "structures", "tree", "enemies", "interface", "install"];
 function route() {
   const h = location.hash.slice(1);
   const target = VIEWS.includes(h) ? null : document.getElementById(h);
