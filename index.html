@@ -635,6 +635,13 @@ figcaption b { color: var(--ink) }
         <li><b>Start it.</b> In the headset open the app Library, set the filter to <b>Unknown Sources</b>, and choose Stellar Defender.</li>
       </ol>
     </div>
+    <div class="block">
+      <h3>If the install fails</h3>
+      <ul style="margin:0 0 0 18px; display:grid; gap:6px; overflow-wrap:anywhere">
+        <li><span class="mono">INSTALL_FAILED_UPDATE_INCOMPATIBLE</span> or a message about signatures not matching: another app with the same package name is already on the headset, usually an older build from a different computer or another Unity test project. Remove it with <span class="mono">adb uninstall com.UnityTechnologies.com.unity.template.urpblank</span>, then run the install command again. Removing it deletes that app's saved profiles. In Windows PowerShell, from the Platform-Tools folder, type <span class="mono">./adb.exe</span> in place of <span class="mono">adb</span> in every command on this page.</li>
+        <li><span class="mono">no devices/emulators found</span>: the headset is asleep or the cable carries power only. Wake the headset, try another cable or port, and repeat step 3.</li>
+      </ul>
+    </div>
   </div>
 </section>
 </main>
